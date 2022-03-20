@@ -1,5 +1,4 @@
 add_library(Blockchain SHARED)
-
 add_library(BlockchainStatic STATIC)
 
 include_directories(include)
