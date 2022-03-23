@@ -24,6 +24,7 @@ namespace blockchain {
                     vector<BlkEnum *> *enums, vector<BlkStruct *> *structs, vector<BlkFunction *> *events);
         ~BlkContract();
         string name();
+        const vector<BlkFunction *> &functions();
     private:
         string contractName;
         vector<BlkUserType *> *contractInherits;

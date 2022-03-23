@@ -14,7 +14,13 @@ namespace blockchainTest {
     BlockchainTest::BlockchainTest() : FunctionPass(ID) {
         SummaryReader reader("test/summary.json");
         blockchain = reader.blockchain();
-        cout << blockchain->contracts()[0]->name() << endl;
+        for(auto contract : blockchain->contracts()) {
+            cout << "found contract: " << contract->name() << endl;
+            for(auto function : contract->functions()) {
+                cout << "  found function: " << function->name() << endl;
+                fnCount[function] = 0;
+            }
+        }
     }
 
     BlockchainTest::~BlockchainTest() {

@@ -8,6 +8,8 @@
 #include "llvm/Pass.h"
 #include "llvm/IR/Function.h"
 #include <Blockchain.h>
+#include <BlkFunction.h>
+#include <map>
 
 using namespace llvm;
 using namespace blockchain;
@@ -21,6 +23,7 @@ namespace blockchainTest {
         bool runOnFunction(Function &F) override;
     private:
         Blockchain *blockchain;
+        map<BlkFunction *, int> fnCount;
     };
 }
 

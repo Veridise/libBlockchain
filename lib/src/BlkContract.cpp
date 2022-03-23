@@ -28,4 +28,8 @@ namespace blockchain {
     string BlkContract::name() {
         return contractName;
     }
+
+    const vector<BlkFunction *> &BlkContract::functions() {
+        return *contractFns;
+    }
 }
