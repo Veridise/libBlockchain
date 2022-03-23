@@ -5,20 +5,21 @@
 #ifndef LIBBLOCKCHAIN_BLKENUM_H
 #define LIBBLOCKCHAIN_BLKENUM_H
 
+#include <map>
 #include <string>
+#include "BlkStorage.h"
 
 using namespace std;
 
 namespace blockchain {
-    class BlkEnum {
+    class BlkEnum : public BlkStorage {
     public:
-        BlkEnum();
+        BlkEnum(string &name, map<std::string, int> *values);
         ~BlkEnum();
         string name();
-        string memberName(int id);
-        int memberValue(string name);
     private:
         string enumName;
+        map<std::string, int> *values;
     };
 }
 

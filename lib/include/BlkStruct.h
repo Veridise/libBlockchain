@@ -6,17 +6,22 @@
 #define LIBBLOCKCHAIN_BLKSTRUCT_H
 
 #include <string>
+#include <vector>
+#include "BlkVariable.h"
+#include "BlkVariable.h"
+#include "BlkStorage.h"
 
 using namespace std;
 
 namespace blockchain {
-    class BlkStruct {
+    class BlkStruct : public BlkStorage {
     public:
-        BlkStruct();
+        BlkStruct(string &name, vector<BlkVariable *> *fields);
         ~BlkStruct();
         string name();
     private:
         string structName;
+        vector<BlkVariable *> *structFields;
     };
 }
 

@@ -5,12 +5,13 @@
 #include "../include/BlkStruct.h"
 
 namespace blockchain {
-    BlkStruct::BlkStruct() {
-
+    BlkStruct::BlkStruct(string &name, vector<BlkVariable *> *fields) {
+        structName = name;
+        structFields = fields;
     }
 
     BlkStruct::~BlkStruct() {
-
+        deleter(structFields);
     }
 
     string BlkStruct::name() {

@@ -10,32 +10,27 @@
 #include "BlkStruct.h"
 #include "BlkVariable.h"
 #include "BlkFunction.h"
+#include "BlkUserType.h"
 #include <vector>
 
 using namespace std;
 using namespace llvm;
+#include "BlkNode.h"
 
 namespace blockchain {
-    class BlkContract {
+    class BlkContract : public BlkStorage {
     public:
-        BlkContract();
+        BlkContract(string &name, vector<BlkFunction *> *fns, vector<BlkVariable *> *vars, vector<BlkUserType *> *inherits,
+                    vector<BlkEnum *> *enums, vector<BlkStruct *> *structs, vector<BlkFunction *> *events);
         ~BlkContract();
-        const vector<BlkEnum> *enums();
-        const vector<BlkStruct> *structs();
-        const vector<BlkVariable> *variables();
-        const vector<BlkFunction> *functions();
-        string name();
-        bool isConstructor(Function &fn);
-        bool isContractFunction(Function &fn);
-        bool isView(Function &fn);
-        bool isPure(Function &fn);
-        BlkFunction &findFunction(Function &fn);
     private:
         string contractName;
-        vector<BlkEnum> *contractEnums;
-        vector<BlkStruct> *contractStructs;
-        vector<BlkVariable> *contractVars;
-        vector<BlkFunction> *contractFns;
+        vector<BlkUserType *> *contractInherits;
+        vector<BlkFunction *> *contractEvents;
+        vector<BlkEnum *> *contractEnums;
+        vector<BlkStruct *> *contractStructs;
+        vector<BlkVariable *> *contractVars;
+        vector<BlkFunction *> *contractFns;
     };
 }
 

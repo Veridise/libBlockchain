@@ -7,21 +7,27 @@
 
 
 namespace blockchain {
-    Solidity::Solidity(string configFile) {
-
+    Solidity::Solidity(string &c, string &v, vector<BlkContract *> *contracts) {
+        srcCompiler = c;
+        srcVersion = v;
+        solContracts = contracts;
     }
 
     Solidity::~Solidity() {
         if(solContracts != nullptr) {
-            delete solContracts;
+            for(auto c : *solContracts) {
+                delete c;
+            }
+            solContracts->clear();
         }
+        delete solContracts;
     }
 
     bool Solidity::allowsReentrancy() {
         return true;
     }
 
-    bool Solidity::isConstructor(Function &fn) {
+    /*bool Solidity::isConstructor(Function &fn) {
         BlkContract &contract = findDeclaringContract(fn);
         return contract.isConstructor(fn);
     }
@@ -39,9 +45,9 @@ namespace blockchain {
     bool Solidity::isPure(Function &fn) {
         BlkContract &contract = findDeclaringContract(fn);
         return contract.isPure(fn);
-    }
+    }*/
 
-    const vector<BlkContract> *Solidity::contracts() {
-        return solContracts;
+    const vector<BlkContract *> &Solidity::contracts() {
+        return *solContracts;
     }
 }

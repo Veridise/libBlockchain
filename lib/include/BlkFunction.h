@@ -11,15 +11,16 @@
 
 using namespace std;
 namespace blockchain {
-    class BlkFunction {
+    class BlkFunction : public BlkNode {
     public:
-        BlkFunction();
+        BlkFunction(std::string &name, vector<BlkVariable *> *params, vector<BlkVariable *> *rets, vector<string> *mods);
         ~BlkFunction();
         string name();
-        vector<BlkVariable> *params;
     private:
         string fnName;
-        vector<BlkVariable> *fnParams;
+        vector<BlkVariable *> *fnParams;
+        vector<BlkVariable *> *fnReturns;
+        vector<std::string> *fnMods;
     };
 }
 

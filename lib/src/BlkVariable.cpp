@@ -6,12 +6,13 @@
 
 
 namespace blockchain {
-    BlkVariable::BlkVariable() {
-
+    BlkVariable::BlkVariable(string &name, BlkType *type) {
+        varName = name;
+        varType = type;
     }
 
     BlkVariable::~BlkVariable() {
-
+        delete varType;
     }
 
     string BlkVariable::name() {

@@ -5,33 +5,24 @@
 #include "../include/BlkContract.h"
 
 namespace blockchain {
-    BlkContract::BlkContract() {
-
+    BlkContract::BlkContract(string &name, vector<BlkFunction *> *fns, vector<BlkVariable *> *vars, vector<BlkUserType *> *inherits,
+            vector<BlkEnum *> *enums, vector<BlkStruct *> *structs, vector<BlkFunction *> *events) {
+        contractName = name;
+        contractFns = fns;
+        contractVars = vars;
+        contractInherits = inherits;
+        contractEnums = enums;
+        contractStructs = structs;
+        contractEvents = events;
     }
 
     BlkContract::~BlkContract() {
-        if(contractEnums != nullptr) {
-            delete contractEnums;
-        }
-
-        if(contractFns != nullptr) {
-            delete contractFns;
-        }
-
-        if(contractStructs != nullptr) {
-            delete contractStructs;
-        }
-
-        if(contractVars != nullptr) {
-            delete contractVars;
-        }
+        deleter(contractInherits);
+        deleter(contractEvents);
+        deleter(contractEnums);
+        deleter(contractStructs);
+        deleter(contractVars);
+        deleter(contractFns);
     }
 
-    string BlkContract::name() {
-        return contractName;
-    }
-
-    bool BlkContract::isConstructor(Function &fn) {
-
-    }
 }

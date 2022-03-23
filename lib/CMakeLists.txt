@@ -1,6 +1,7 @@
 add_library(Blockchain SHARED)
 add_library(BlockchainStatic STATIC)
 
+include_directories(rapidjson)
 include_directories(include)
 add_subdirectory(src)
 
@@ -23,7 +24,7 @@ if(APPLE)
     set_target_properties(Blockchain PROPERTIES
         LINK_FLAGS "-undefined dynamic_lookup"
     )   
-    set_target_properties(Blockchain PROPERTIES
+    set_target_properties(BlockchainStatic PROPERTIES
         LINK_FLAGS "-undefined dynamic_lookup"
     )   
 endif(APPLE)

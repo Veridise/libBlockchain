@@ -6,18 +6,19 @@
 #define LIBBLOCKCHAIN_BLKVARIABLE_H
 
 #include <string>
+#include "BlkType.h"
 
 using namespace std;
 
 namespace blockchain {
-    class BlkVariable {
+    class BlkVariable : public BlkNode {
     public:
-        BlkVariable();
+        BlkVariable(string &name, BlkType *type);
         ~BlkVariable();
-        bool isContractVariable();
         string name();
     private:
         string varName;
+        BlkType *varType;
     };
 }
 

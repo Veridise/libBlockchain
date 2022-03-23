@@ -5,14 +5,17 @@
 #include "../include/BlkFunction.h"
 
 namespace blockchain {
-    BlkFunction::BlkFunction() {
-
+    BlkFunction::BlkFunction(std::string &name, vector<BlkVariable *> *params, vector<BlkVariable *> *rets, vector<string> *mods) {
+        fnName = name;
+        fnParams = params;
+        fnReturns = rets;
+        fnMods = mods;
     }
 
     BlkFunction::~BlkFunction() {
-        if(fnParams != nullptr) {
-            delete fnParams;
-        }
+        deleter(fnParams);
+        deleter(fnReturns);
+        delete fnMods;
     }
 
     string BlkFunction::name() {

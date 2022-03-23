@@ -17,13 +17,13 @@ namespace blockchain {
     class Blockchain {
     public:
         virtual bool allowsReentrancy() = 0;
-        virtual bool isConstructor(Function &fn) = 0;
+        /*virtual bool isConstructor(Function &fn) = 0;
         virtual bool isExternalCall(Instruction &ins) = 0;
         virtual bool isView(Function &fn) = 0;
         virtual bool isPure(Function &fn) = 0;
-        virtual bool isContractFunction(Function &fn) = 0;
-        virtual const vector<BlkContract> *getContracts() = 0;
-        virtual BlkContract &findDeclaringContract(Function &fn) = 0;
+        virtual bool isContractFunction(Function &fn) = 0;*/
+        virtual const vector<BlkContract *> &contracts() = 0;
+        //virtual BlkContract &findDeclaringContract(Function &fn) = 0;
     };
 }
 
