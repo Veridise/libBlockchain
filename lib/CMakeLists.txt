@@ -1,13 +1,19 @@
 add_library(Blockchain SHARED)
 add_library(BlockchainStatic STATIC)
+add_library(BlockchainTest SHARED)
 
 include_directories(rapidjson)
 include_directories(include)
 add_subdirectory(src)
+add_subdirectory(test)
 
 # Use C++11 to compile your pass (i.e., supply -std=c++11).
 target_compile_features(Blockchain PRIVATE cxx_range_for cxx_auto_type)
 target_compile_features(BlockchainStatic PRIVATE cxx_range_for cxx_auto_type)
+target_compile_features(BlockchainTest PRIVATE cxx_range_for cxx_auto_type)
+
+target_link_libraries(BlockchainTest PUBLIC BlockchainStatic)
+#set_target_properties(BlockchainTest PROPERTIES LINK_FLAGS "-lBlockchainStatic")
 
 # LLVM is (typically) built with no C++ RTTI. We need to match that;
 # otherwise, we'll get linker errors about missing RTTI data.
@@ -15,6 +21,10 @@ set_target_properties(Blockchain PROPERTIES
     COMPILE_FLAGS "-fno-rtti"
 )
 set_target_properties(BlockchainStatic PROPERTIES
+    COMPILE_FLAGS "-fno-rtti"
+)
+
+set_target_properties(BlockchainTest PROPERTIES
     COMPILE_FLAGS "-fno-rtti"
 )
 
@@ -26,5 +36,8 @@ if(APPLE)
     )   
     set_target_properties(BlockchainStatic PROPERTIES
         LINK_FLAGS "-undefined dynamic_lookup"
-    )   
+    )
+    set_target_properties(BlockchainTest PROPERTIES
+        LINK_FLAGS "-undefined dynamic_lookup"
+    )
 endif(APPLE)

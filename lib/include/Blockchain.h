@@ -16,6 +16,7 @@ using namespace std;
 namespace blockchain {
     class Blockchain {
     public:
+        virtual ~Blockchain() = default;
         virtual bool allowsReentrancy() = 0;
         /*virtual bool isConstructor(Function &fn) = 0;
         virtual bool isExternalCall(Instruction &ins) = 0;

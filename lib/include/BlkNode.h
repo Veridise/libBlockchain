@@ -9,7 +9,16 @@ namespace blockchain {
     class BlkNode {
     protected:
         template<typename collection>
-        void deleter(collection *collect);
+        void deleter(collection *collect) {
+            if(collect != nullptr) {
+                for(auto it : *collect) {
+                    delete it;
+                }
+                collect->clear();
+            }
+
+            delete collect;
+        }
     };
 }
 

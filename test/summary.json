@@ -1,0 +1,726 @@
+{
+  "contracts": [
+    {
+      "inherits": [],
+      "events": [],
+      "functions": [
+        {
+          "params": [],
+          "returns": [
+            {
+              "type": {
+                "subType": "UserType",
+                "refId": 8,
+                "name": "enum example.State"
+              }
+            }
+          ],
+          "modifiers": [],
+          "name": "getState"
+        },
+        {
+          "params": [
+            {
+              "name": "p",
+              "type": {
+                "subType": "ElementaryType",
+                "name": "int32"
+              }
+            }
+          ],
+          "returns": [],
+          "modifiers": [],
+          "name": "setPid"
+        },
+        {
+          "params": [],
+          "returns": [
+            {
+              "type": {
+                "subType": "ElementaryType",
+                "name": "int32"
+              }
+            }
+          ],
+          "modifiers": [],
+          "name": "getPid"
+        },
+        {
+          "params": [],
+          "returns": [
+            {
+              "type": {
+                "subType": "ElementaryType",
+                "name": "uint32"
+              }
+            }
+          ],
+          "modifiers": [],
+          "name": "getReaped"
+        },
+        {
+          "params": [
+            {
+              "name": "_pid",
+              "type": {
+                "subType": "ElementaryType",
+                "name": "int32"
+              }
+            }
+          ],
+          "returns": [],
+          "modifiers": [],
+          "name": ""
+        },
+        {
+          "params": [],
+          "returns": [
+            {
+              "type": {
+                "subType": "ElementaryType",
+                "name": "bool"
+              }
+            }
+          ],
+          "modifiers": [],
+          "name": "is_zombie_reaper"
+        },
+        {
+          "params": [],
+          "returns": [
+            {
+              "type": {
+                "subType": "ElementaryType",
+                "name": "uint32"
+              }
+            }
+          ],
+          "modifiers": [],
+          "name": "systemd_pid"
+        },
+        {
+          "params": [
+            {
+              "name": "celcius",
+              "type": {
+                "subType": "ElementaryType",
+                "name": "int32"
+              }
+            }
+          ],
+          "returns": [
+            {
+              "type": {
+                "subType": "ElementaryType",
+                "name": "int32"
+              }
+            }
+          ],
+          "modifiers": [],
+          "name": "celcius2fahrenheit"
+        },
+        {
+          "params": [
+            {
+              "name": "a",
+              "type": {
+                "subType": "ElementaryType",
+                "name": "int32"
+              }
+            },
+            {
+              "name": "b",
+              "type": {
+                "subType": "ElementaryType",
+                "name": "int32"
+              }
+            }
+          ],
+          "returns": [
+            {
+              "type": {
+                "subType": "ElementaryType",
+                "name": "int32"
+              }
+            }
+          ],
+          "modifiers": [],
+          "name": "v_mul"
+        },
+        {
+          "params": [
+            {
+              "name": "a",
+              "type": {
+                "subType": "ElementaryType",
+                "name": "int32"
+              }
+            },
+            {
+              "name": "b",
+              "type": {
+                "subType": "ElementaryType",
+                "name": "int32"
+              }
+            }
+          ],
+          "returns": [
+            {
+              "type": {
+                "subType": "ElementaryType",
+                "name": "int32"
+              }
+            }
+          ],
+          "modifiers": [],
+          "name": "v_div"
+        },
+        {
+          "params": [
+            {
+              "name": "a",
+              "type": {
+                "subType": "ElementaryType",
+                "name": "int32"
+              }
+            },
+            {
+              "name": "b",
+              "type": {
+                "subType": "ElementaryType",
+                "name": "int32"
+              }
+            }
+          ],
+          "returns": [
+            {
+              "type": {
+                "subType": "ElementaryType",
+                "name": "int32"
+              }
+            }
+          ],
+          "modifiers": [],
+          "name": "v_add"
+        },
+        {
+          "params": [
+            {
+              "name": "celcius",
+              "type": {
+                "subType": "ElementaryType",
+                "name": "int32"
+              }
+            }
+          ],
+          "returns": [
+            {
+              "type": {
+                "subType": "ElementaryType",
+                "name": "int32"
+              }
+            }
+          ],
+          "modifiers": [],
+          "name": "celcius2fahrenheit1"
+        },
+        {
+          "params": [
+            {
+              "name": "fahrenheit",
+              "type": {
+                "subType": "ElementaryType",
+                "name": "int32"
+              }
+            }
+          ],
+          "returns": [
+            {
+              "type": {
+                "subType": "ElementaryType",
+                "name": "int32"
+              }
+            }
+          ],
+          "modifiers": [],
+          "name": "fahrenheit2celcius"
+        },
+        {
+          "params": [
+            {
+              "name": "n",
+              "type": {
+                "subType": "ElementaryType",
+                "name": "uint"
+              }
+            }
+          ],
+          "returns": [
+            {
+              "type": {
+                "subType": "ElementaryType",
+                "name": "bool"
+              }
+            }
+          ],
+          "modifiers": [],
+          "name": "is_power_of_2"
+        },
+        {
+          "params": [
+            {
+              "name": "n",
+              "type": {
+                "subType": "ElementaryType",
+                "name": "uint"
+              }
+            }
+          ],
+          "returns": [
+            {
+              "name": "count",
+              "type": {
+                "subType": "ElementaryType",
+                "name": "uint"
+              }
+            }
+          ],
+          "modifiers": [],
+          "name": "population_count"
+        },
+        {
+          "params": [
+            {
+              "name": "base",
+              "type": {
+                "subType": "ElementaryType",
+                "name": "uint"
+              }
+            },
+            {
+              "name": "exp",
+              "type": {
+                "subType": "ElementaryType",
+                "name": "uint"
+              }
+            }
+          ],
+          "returns": [
+            {
+              "type": {
+                "subType": "ElementaryType",
+                "name": "uint"
+              }
+            }
+          ],
+          "modifiers": [],
+          "name": "power"
+        },
+        {
+          "params": [
+            {
+              "name": "a",
+              "type": {
+                "subType": "ElementaryType",
+                "name": "address"
+              }
+            }
+          ],
+          "returns": [
+            {
+              "type": {
+                "subType": "ElementaryType",
+                "name": "bool"
+              }
+            }
+          ],
+          "modifiers": [],
+          "name": "is_address_zero"
+        },
+        {
+          "params": [
+            {
+              "name": "input",
+              "type": {
+                "subType": "ElementaryType",
+                "name": "bytes8"
+              }
+            }
+          ],
+          "returns": [
+            {
+              "name": "out",
+              "type": {
+                "subType": "ElementaryType",
+                "name": "bytes8"
+              }
+            }
+          ],
+          "modifiers": [],
+          "name": "byte8reverse"
+        },
+        {
+          "params": [
+            {
+              "name": "_pid",
+              "type": {
+                "subType": "ElementaryType",
+                "name": "uint64"
+              }
+            }
+          ],
+          "returns": [
+            {
+              "type": {
+                "subType": "UserType",
+                "refId": 8,
+                "name": "enum example.State"
+              }
+            }
+          ],
+          "modifiers": [],
+          "name": "get_pid_state"
+        },
+        {
+          "params": [],
+          "returns": [
+            {
+              "type": {
+                "subType": "ElementaryType",
+                "name": "uint32"
+              }
+            }
+          ],
+          "modifiers": [],
+          "name": "get_pid_state"
+        },
+        {
+          "params": [],
+          "returns": [],
+          "modifiers": [],
+          "name": "reap_processes"
+        },
+        {
+          "params": [],
+          "returns": [
+            {
+              "type": {
+                "subType": "ElementaryType",
+                "name": "uint16"
+              }
+            }
+          ],
+          "modifiers": [],
+          "name": "run_queue"
+        },
+        {
+          "params": [
+            {
+              "name": "c",
+              "type": {
+                "subType": "UserType",
+                "refId": 522,
+                "name": "struct example.card"
+              }
+            }
+          ],
+          "returns": [
+            {
+              "type": {
+                "subType": "UserType",
+                "refId": 515,
+                "name": "enum example.value"
+              }
+            }
+          ],
+          "modifiers": [],
+          "name": "getCardV"
+        },
+        {
+          "params": [
+            {
+              "name": "c",
+              "type": {
+                "subType": "UserType",
+                "refId": 522,
+                "name": "struct example.card"
+              }
+            }
+          ],
+          "returns": [
+            {
+              "type": {
+                "subType": "UserType",
+                "refId": 501,
+                "name": "enum example.suit"
+              }
+            }
+          ],
+          "modifiers": [],
+          "name": "getCardS"
+        },
+        {
+          "params": [],
+          "returns": [
+            {
+              "type": {
+                "subType": "UserType",
+                "refId": 522,
+                "name": "struct example.card"
+              }
+            }
+          ],
+          "modifiers": [],
+          "name": "getCard1"
+        },
+        {
+          "params": [],
+          "returns": [
+            {
+              "type": {
+                "subType": "UserType",
+                "refId": 522,
+                "name": "struct example.card"
+              }
+            }
+          ],
+          "modifiers": [],
+          "name": "getCard2"
+        },
+        {
+          "params": [
+            {
+              "name": "c",
+              "type": {
+                "subType": "UserType",
+                "refId": 522,
+                "name": "struct example.card"
+              }
+            }
+          ],
+          "returns": [],
+          "modifiers": [],
+          "name": "setCard1"
+        },
+        {
+          "params": [
+            {
+              "name": "val",
+              "type": {
+                "subType": "UserType",
+                "refId": 515,
+                "name": "enum example.value"
+              }
+            },
+            {
+              "name": "st",
+              "type": {
+                "subType": "UserType",
+                "refId": 501,
+                "name": "enum example.suit"
+              }
+            }
+          ],
+          "returns": [
+            {
+              "type": {
+                "subType": "UserType",
+                "refId": 522,
+                "name": "struct example.card"
+              }
+            }
+          ],
+          "modifiers": [],
+          "name": "createCard"
+        },
+        {
+          "params": [
+            {
+              "name": "c",
+              "type": {
+                "subType": "UserType",
+                "refId": 522,
+                "name": "struct example.card"
+              }
+            }
+          ],
+          "returns": [
+            {
+              "name": "previous",
+              "type": {
+                "subType": "UserType",
+                "refId": 522,
+                "name": "struct example.card"
+              }
+            }
+          ],
+          "modifiers": [],
+          "name": "set_card1"
+        },
+        {
+          "params": [],
+          "returns": [
+            {
+              "type": {
+                "subType": "UserType",
+                "refId": 522,
+                "name": "struct example.card"
+              }
+            }
+          ],
+          "modifiers": [],
+          "name": "ace_of_spades"
+        },
+        {
+          "params": [
+            {
+              "name": "c",
+              "type": {
+                "subType": "UserType",
+                "refId": 522,
+                "name": "struct example.card"
+              }
+            }
+          ],
+          "returns": [
+            {
+              "name": "score",
+              "type": {
+                "subType": "ElementaryType",
+                "name": "uint32"
+              }
+            }
+          ],
+          "modifiers": [],
+          "name": "score_card"
+        }
+      ],
+      "variables": [
+        {
+          "name": "state",
+          "type": {
+            "subType": "UserType",
+            "refId": 8,
+            "name": "enum example.State"
+          }
+        },
+        {
+          "name": "pid",
+          "type": {
+            "subType": "ElementaryType",
+            "name": "int32"
+          }
+        },
+        {
+          "name": "reaped",
+          "type": {
+            "subType": "ElementaryType",
+            "name": "uint32"
+          }
+        },
+        {
+          "name": "bad_state",
+          "type": {
+            "subType": "UserType",
+            "refId": 8,
+            "name": "enum example.State"
+          }
+        },
+        {
+          "name": "first_pid",
+          "type": {
+            "subType": "ElementaryType",
+            "name": "int32"
+          }
+        },
+        {
+          "name": "card1",
+          "type": {
+            "subType": "UserType",
+            "refId": 522,
+            "name": "struct example.card"
+          }
+        },
+        {
+          "name": "card2",
+          "type": {
+            "subType": "UserType",
+            "refId": 522,
+            "name": "struct example.card"
+          }
+        }
+      ],
+      "structs": [
+        {
+          "fields": [
+            {
+              "name": "v",
+              "type": {
+                "subType": "UserType",
+                "refId": 515,
+                "name": "enum example.value"
+              }
+            },
+            {
+              "name": "s",
+              "type": {
+                "subType": "UserType",
+                "refId": 501,
+                "name": "enum example.suit"
+              }
+            }
+          ],
+          "id": 522,
+          "name": "card"
+        }
+      ],
+      "enums": [
+        {
+          "values": {
+            "Running": 0,
+            "Sleeping": 1,
+            "Waiting": 2,
+            "Stopped": 3,
+            "Zombie": 4,
+            "StateCount": 5
+          },
+          "name": "State",
+          "id": 8
+        },
+        {
+          "values": {
+            "club": 0,
+            "diamonds": 1,
+            "hearts": 2,
+            "spades": 3
+          },
+          "name": "suit",
+          "id": 501
+        },
+        {
+          "values": {
+            "two": 0,
+            "three": 1,
+            "four": 2,
+            "five": 3,
+            "six": 4,
+            "seven": 5,
+            "eight": 6,
+            "nine": 7,
+            "ten": 8,
+            "jack": 9,
+            "queen": 10,
+            "king": 11,
+            "ace": 12
+          },
+          "name": "value",
+          "id": 515
+        }
+      ],
+      "id": 714,
+      "name": "example"
+    }
+  ],
+  "version": "^0.8.9",
+  "compiler": "Solang"
+}

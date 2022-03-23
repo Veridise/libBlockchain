@@ -8,6 +8,7 @@
 #include <document.h>
 #include <istreamwrapper.h>
 #include <stdexcept>
+#include <iostream>
 
 using namespace std;
 
@@ -17,10 +18,15 @@ namespace blockchain {
     SummaryReader::SummaryReader(std::string projectFile) {
         ifstream inStream(projectFile);
         rapidjson::IStreamWrapper jsonStream(inStream);
+        cout << "starting" << endl;
 
         rapidjson::Document doc;
         doc.ParseStream(jsonStream);
         summary = readSummary(doc);
+    }
+
+    Blockchain *SummaryReader::blockchain() {
+        return summary;
     }
 
     void error(string msg) {
@@ -43,7 +49,7 @@ namespace blockchain {
         Blockchain *blockchain;
         auto contracts = new vector<BlkContract *>();
         if(compiler == "Solang") {
-            Solidity *solBlk = new Solidity(compiler, version, contracts);
+            blockchain = new Solidity(compiler, version, contracts);
         }
         else {
             error(string("Unknown compiler: ") + compiler);
@@ -212,13 +218,14 @@ namespace blockchain {
     }
 
     BlkVariable *SummaryReader::readVariable(rapidjson::Value &val) {
-        require(val.HasMember("name") && val["name"].IsString(), "Variable must have a name");
+        require(val.HasMember("type") && val["type"].IsObject(), "Variable must have a type");
 
-        string name = val["name"].GetString();
-        BlkType *type = nullptr;
+        BlkType *type = readType(val["type"]);
 
-        if(val.HasMember("type")) {
-            type = readType(val["type"]);
+        string name = "";
+        if(val.HasMember("name")) {
+            require(val["name"].IsString(), "Variable name must be a string");
+            name = val["name"].GetString();
         }
 
         return new BlkVariable(name, type);

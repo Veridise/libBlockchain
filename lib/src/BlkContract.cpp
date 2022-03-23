@@ -25,4 +25,7 @@ namespace blockchain {
         deleter(contractFns);
     }
 
+    string BlkContract::name() {
+        return contractName;
+    }
 }

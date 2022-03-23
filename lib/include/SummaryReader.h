@@ -26,6 +26,7 @@ namespace blockchain {
     class SummaryReader{
     public:
         SummaryReader(std::string projectFile);
+        Blockchain *blockchain();
     private:
         std::map<int, BlkStorage *> storageDecls;
         std::map<BlkUserType *, int> storageRefs;
