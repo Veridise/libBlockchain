@@ -7,13 +7,15 @@
 #include <SummaryReader.h>
 #include <Blockchain.h>
 #include <BlkContract.h>
+#include "llvm/IR/Module.h"
 
 using namespace blockchain;
 
 namespace blockchainTest {
-    BlockchainTest::BlockchainTest() : FunctionPass(ID) {
+    BlockchainTest::BlockchainTest() : ModulePass(ID) {
         SummaryReader reader("test/summary.json");
         blockchain = reader.blockchain();
+        externalCallCnt = 0;
         for(auto contract : blockchain->contracts()) {
             cout << "found contract: " << contract->name() << endl;
             for(auto function : contract->functions()) {
@@ -28,9 +30,33 @@ namespace blockchainTest {
         //FunctionPass::~FunctionPass();
     }
 
-    bool BlockchainTest::runOnFunction(Function &fn) {
-        if(fn.hasName()) {
-            std::cout << fn.getName().str() << std::endl;
+    bool BlockchainTest::runOnModule(Module &mod) {
+        for(const Function &fn : mod) {
+            //if(fn.hasName()) {
+            //    cout << fn.getName().str() << endl;
+            //}
+            const BlkFunction *blkFn = blockchain->findFunction(fn);
+            if(blkFn != nullptr) {
+                //cout << blkFn->name() << " == " << fn.getName().str() << endl;
+                fnCount[blkFn]++;
+            }
+            if(blockchain->isAnyExternalCall(fn)) {
+                externalCallCnt++;
+                cout << "Found external call: " << fn.getName().str() << endl;
+            }
+        }
+
+        for(auto entry : fnCount) {
+            if(entry.second == 0) {
+                cerr << "Warning: Could not find function " << entry.first->name() << endl;
+            }
+            if(entry.second > 1) {
+                cerr << "Error: Found " << entry.second << " instances of " << entry.first->name() << endl;
+            }
+        }
+
+        if(externalCallCnt != 3) {
+            cerr << "Error: Found " << externalCallCnt << " external calls" << endl;
         }
 
         return false;

@@ -10,6 +10,8 @@ set (Sources
         ${CMAKE_CURRENT_SOURCE_DIR}/BlkMapType.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/BlkUserType.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/SummaryReader.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/SolangToLLVM.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/BlkNode.cpp
         )
 
 target_sources(Blockchain PRIVATE

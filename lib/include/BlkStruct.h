@@ -16,11 +16,9 @@ using namespace std;
 namespace blockchain {
     class BlkStruct : public BlkStorage {
     public:
-        BlkStruct(string &name, vector<BlkVariable *> *fields);
+        BlkStruct(BlockchainToLLVM *blk2llvm, string &name, vector<BlkVariable *> *fields);
         ~BlkStruct();
-        string name();
     private:
-        string structName;
         vector<BlkVariable *> *structFields;
     };
 }

@@ -14,11 +14,9 @@ using namespace std;
 namespace blockchain {
     class BlkEnum : public BlkStorage {
     public:
-        BlkEnum(string &name, map<std::string, int> *values);
+        BlkEnum(BlockchainToLLVM *blk2llvm, string &name, map<std::string, int> *values);
         ~BlkEnum();
-        string name();
     private:
-        string enumName;
         map<std::string, int> *values;
     };
 }

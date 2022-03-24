@@ -5,6 +5,62 @@
       "events": [],
       "functions": [
         {
+          "params": [
+            {
+              "name": "m",
+              "type": {
+                "subType": "MapType",
+                "name": "mapping(address => uint256)",
+                "key": {
+                  "subType": "ElementaryType",
+                  "name": "address"
+                },
+                "value": {
+                  "subType": "ElementaryType",
+                  "name": "uint"
+                }
+              }
+            }
+          ],
+          "returns": [
+            {
+              "type": {
+                "subType": "ElementaryType",
+                "name": "bool"
+              }
+            }
+          ],
+          "modifiers": [],
+          "isConstructor": false,
+          "name": "getAMap"
+        },
+        {
+          "params": [
+            {
+              "name": "a",
+              "type": {
+                "subType": "ArrayType",
+                "name": "address[]",
+                "base": {
+                  "subType": "ElementaryType",
+                  "name": "address"
+                }
+              }
+            }
+          ],
+          "returns": [
+            {
+              "type": {
+                "subType": "ElementaryType",
+                "name": "bool"
+              }
+            }
+          ],
+          "modifiers": [],
+          "isConstructor": false,
+          "name": "getArray"
+        },
+        {
           "params": [],
           "returns": [
             {
@@ -16,6 +72,7 @@
             }
           ],
           "modifiers": [],
+          "isConstructor": false,
           "name": "getState"
         },
         {
@@ -30,6 +87,7 @@
           ],
           "returns": [],
           "modifiers": [],
+          "isConstructor": false,
           "name": "setPid"
         },
         {
@@ -43,6 +101,7 @@
             }
           ],
           "modifiers": [],
+          "isConstructor": false,
           "name": "getPid"
         },
         {
@@ -56,6 +115,7 @@
             }
           ],
           "modifiers": [],
+          "isConstructor": false,
           "name": "getReaped"
         },
         {
@@ -70,7 +130,8 @@
           ],
           "returns": [],
           "modifiers": [],
-          "name": ""
+          "isConstructor": true,
+          "name": "constructor"
         },
         {
           "params": [],
@@ -83,6 +144,7 @@
             }
           ],
           "modifiers": [],
+          "isConstructor": false,
           "name": "is_zombie_reaper"
         },
         {
@@ -96,6 +158,7 @@
             }
           ],
           "modifiers": [],
+          "isConstructor": false,
           "name": "systemd_pid"
         },
         {
@@ -117,6 +180,7 @@
             }
           ],
           "modifiers": [],
+          "isConstructor": false,
           "name": "celcius2fahrenheit"
         },
         {
@@ -145,6 +209,7 @@
             }
           ],
           "modifiers": [],
+          "isConstructor": false,
           "name": "v_mul"
         },
         {
@@ -173,6 +238,7 @@
             }
           ],
           "modifiers": [],
+          "isConstructor": false,
           "name": "v_div"
         },
         {
@@ -201,6 +267,7 @@
             }
           ],
           "modifiers": [],
+          "isConstructor": false,
           "name": "v_add"
         },
         {
@@ -222,6 +289,7 @@
             }
           ],
           "modifiers": [],
+          "isConstructor": false,
           "name": "celcius2fahrenheit1"
         },
         {
@@ -243,6 +311,7 @@
             }
           ],
           "modifiers": [],
+          "isConstructor": false,
           "name": "fahrenheit2celcius"
         },
         {
@@ -264,6 +333,7 @@
             }
           ],
           "modifiers": [],
+          "isConstructor": false,
           "name": "is_power_of_2"
         },
         {
@@ -286,6 +356,7 @@
             }
           ],
           "modifiers": [],
+          "isConstructor": false,
           "name": "population_count"
         },
         {
@@ -314,6 +385,7 @@
             }
           ],
           "modifiers": [],
+          "isConstructor": false,
           "name": "power"
         },
         {
@@ -335,6 +407,7 @@
             }
           ],
           "modifiers": [],
+          "isConstructor": false,
           "name": "is_address_zero"
         },
         {
@@ -357,6 +430,7 @@
             }
           ],
           "modifiers": [],
+          "isConstructor": false,
           "name": "byte8reverse"
         },
         {
@@ -379,6 +453,7 @@
             }
           ],
           "modifiers": [],
+          "isConstructor": false,
           "name": "get_pid_state"
         },
         {
@@ -392,12 +467,14 @@
             }
           ],
           "modifiers": [],
+          "isConstructor": false,
           "name": "get_pid_state"
         },
         {
           "params": [],
           "returns": [],
           "modifiers": [],
+          "isConstructor": false,
           "name": "reap_processes"
         },
         {
@@ -411,6 +488,7 @@
             }
           ],
           "modifiers": [],
+          "isConstructor": false,
           "name": "run_queue"
         },
         {
@@ -419,7 +497,7 @@
               "name": "c",
               "type": {
                 "subType": "UserType",
-                "refId": 522,
+                "refId": 566,
                 "name": "struct example.card"
               }
             }
@@ -428,12 +506,13 @@
             {
               "type": {
                 "subType": "UserType",
-                "refId": 515,
+                "refId": 559,
                 "name": "enum example.value"
               }
             }
           ],
           "modifiers": [],
+          "isConstructor": false,
           "name": "getCardV"
         },
         {
@@ -442,7 +521,7 @@
               "name": "c",
               "type": {
                 "subType": "UserType",
-                "refId": 522,
+                "refId": 566,
                 "name": "struct example.card"
               }
             }
@@ -451,12 +530,13 @@
             {
               "type": {
                 "subType": "UserType",
-                "refId": 501,
+                "refId": 545,
                 "name": "enum example.suit"
               }
             }
           ],
           "modifiers": [],
+          "isConstructor": false,
           "name": "getCardS"
         },
         {
@@ -465,12 +545,13 @@
             {
               "type": {
                 "subType": "UserType",
-                "refId": 522,
+                "refId": 566,
                 "name": "struct example.card"
               }
             }
           ],
           "modifiers": [],
+          "isConstructor": false,
           "name": "getCard1"
         },
         {
@@ -479,12 +560,13 @@
             {
               "type": {
                 "subType": "UserType",
-                "refId": 522,
+                "refId": 566,
                 "name": "struct example.card"
               }
             }
           ],
           "modifiers": [],
+          "isConstructor": false,
           "name": "getCard2"
         },
         {
@@ -493,13 +575,14 @@
               "name": "c",
               "type": {
                 "subType": "UserType",
-                "refId": 522,
+                "refId": 566,
                 "name": "struct example.card"
               }
             }
           ],
           "returns": [],
           "modifiers": [],
+          "isConstructor": false,
           "name": "setCard1"
         },
         {
@@ -508,7 +591,7 @@
               "name": "val",
               "type": {
                 "subType": "UserType",
-                "refId": 515,
+                "refId": 559,
                 "name": "enum example.value"
               }
             },
@@ -516,7 +599,7 @@
               "name": "st",
               "type": {
                 "subType": "UserType",
-                "refId": 501,
+                "refId": 545,
                 "name": "enum example.suit"
               }
             }
@@ -525,12 +608,13 @@
             {
               "type": {
                 "subType": "UserType",
-                "refId": 522,
+                "refId": 566,
                 "name": "struct example.card"
               }
             }
           ],
           "modifiers": [],
+          "isConstructor": false,
           "name": "createCard"
         },
         {
@@ -539,7 +623,7 @@
               "name": "c",
               "type": {
                 "subType": "UserType",
-                "refId": 522,
+                "refId": 566,
                 "name": "struct example.card"
               }
             }
@@ -549,12 +633,13 @@
               "name": "previous",
               "type": {
                 "subType": "UserType",
-                "refId": 522,
+                "refId": 566,
                 "name": "struct example.card"
               }
             }
           ],
           "modifiers": [],
+          "isConstructor": false,
           "name": "set_card1"
         },
         {
@@ -563,12 +648,13 @@
             {
               "type": {
                 "subType": "UserType",
-                "refId": 522,
+                "refId": 566,
                 "name": "struct example.card"
               }
             }
           ],
           "modifiers": [],
+          "isConstructor": false,
           "name": "ace_of_spades"
         },
         {
@@ -577,7 +663,7 @@
               "name": "c",
               "type": {
                 "subType": "UserType",
-                "refId": 522,
+                "refId": 566,
                 "name": "struct example.card"
               }
             }
@@ -592,6 +678,7 @@
             }
           ],
           "modifiers": [],
+          "isConstructor": false,
           "name": "score_card"
         }
       ],
@@ -619,6 +706,32 @@
           }
         },
         {
+          "name": "aMap",
+          "type": {
+            "subType": "MapType",
+            "name": "mapping(address => uint256)",
+            "key": {
+              "subType": "ElementaryType",
+              "name": "address"
+            },
+            "value": {
+              "subType": "ElementaryType",
+              "name": "uint"
+            }
+          }
+        },
+        {
+          "name": "anArray",
+          "type": {
+            "subType": "ArrayType",
+            "name": "address[]",
+            "base": {
+              "subType": "ElementaryType",
+              "name": "address"
+            }
+          }
+        },
+        {
           "name": "bad_state",
           "type": {
             "subType": "UserType",
@@ -637,7 +750,7 @@
           "name": "card1",
           "type": {
             "subType": "UserType",
-            "refId": 522,
+            "refId": 566,
             "name": "struct example.card"
           }
         },
@@ -645,7 +758,7 @@
           "name": "card2",
           "type": {
             "subType": "UserType",
-            "refId": 522,
+            "refId": 566,
             "name": "struct example.card"
           }
         }
@@ -657,7 +770,7 @@
               "name": "v",
               "type": {
                 "subType": "UserType",
-                "refId": 515,
+                "refId": 559,
                 "name": "enum example.value"
               }
             },
@@ -665,12 +778,12 @@
               "name": "s",
               "type": {
                 "subType": "UserType",
-                "refId": 501,
+                "refId": 545,
                 "name": "enum example.suit"
               }
             }
           ],
-          "id": 522,
+          "id": 566,
           "name": "card"
         }
       ],
@@ -695,7 +808,7 @@
             "spades": 3
           },
           "name": "suit",
-          "id": 501
+          "id": 545
         },
         {
           "values": {
@@ -714,10 +827,10 @@
             "ace": 12
           },
           "name": "value",
-          "id": 515
+          "id": 559
         }
       ],
-      "id": 714,
+      "id": 758,
       "name": "example"
     }
   ],

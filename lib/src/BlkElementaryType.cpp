@@ -3,10 +3,14 @@
 //
 
 #include "../include/BlkElementaryType.h"
+#include "../include/BlkTypeVisitor.h"
+
 namespace blockchain {
-    BlkElementaryType::BlkElementaryType(std::string &name) {
-        typeName = name;
-    }
+    BlkElementaryType::BlkElementaryType(BlockchainToLLVM *blk2llvm, std::string &name) : BlkType(blk2llvm, name) {}
 
     BlkElementaryType::~BlkElementaryType() = default;
+
+    void BlkElementaryType::accept(BlkTypeVisitor &v) const {
+        return v.visit(*this);
+    }
 }

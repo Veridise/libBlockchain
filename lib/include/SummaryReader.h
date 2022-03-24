@@ -30,6 +30,7 @@ namespace blockchain {
     private:
         std::map<int, BlkStorage *> storageDecls;
         std::map<BlkUserType *, int> storageRefs;
+        BlockchainToLLVM *llvmTrans;
         Blockchain *summary;
 
         Blockchain *readSummary(rapidjson::Value &val);

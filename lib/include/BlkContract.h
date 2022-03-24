@@ -20,13 +20,13 @@ using namespace llvm;
 namespace blockchain {
     class BlkContract : public BlkStorage {
     public:
-        BlkContract(string &name, vector<BlkFunction *> *fns, vector<BlkVariable *> *vars, vector<BlkUserType *> *inherits,
+        BlkContract(BlockchainToLLVM *blk2llvm, string &name, vector<BlkFunction *> *fns, vector<BlkVariable *> *vars, vector<BlkUserType *> *inherits,
                     vector<BlkEnum *> *enums, vector<BlkStruct *> *structs, vector<BlkFunction *> *events);
         ~BlkContract();
-        string name();
-        const vector<BlkFunction *> &functions();
+        bool isContractFunction(const Function &fn) const;
+        const BlkFunction *findFunction(const Function &fn) const;
+        const vector<BlkFunction *> &functions() const;
     private:
-        string contractName;
         vector<BlkUserType *> *contractInherits;
         vector<BlkFunction *> *contractEvents;
         vector<BlkEnum *> *contractEnums;

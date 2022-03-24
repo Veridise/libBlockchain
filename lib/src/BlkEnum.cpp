@@ -5,16 +5,11 @@
 #include "../include/BlkEnum.h"
 
 namespace blockchain {
-    BlkEnum::BlkEnum(string &name, map<std::string, int> *vals) {
-        enumName = name;
+    BlkEnum::BlkEnum(BlockchainToLLVM *blk2llvm, string &name, map<std::string, int> *vals) : BlkStorage(blk2llvm, name) {
         values = vals;
     }
 
     BlkEnum::~BlkEnum() {
         delete values;
-    }
-
-    string BlkEnum::name() {
-        return enumName;
     }
 }

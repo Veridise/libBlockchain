@@ -11,10 +11,10 @@
 namespace blockchain {
     class BlkElementaryType : public BlkType {
     public:
-        BlkElementaryType(std::string &name);
+        BlkElementaryType(BlockchainToLLVM *blk2llvm, std::string &name);
         ~BlkElementaryType();
+        void accept(BlkTypeVisitor &v) const override;
     private:
-        std::string typeName;
     };
 }
 

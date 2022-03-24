@@ -16,6 +16,16 @@ contract example {
         State state;
         int32 public pid;
         uint32 reaped = 3;
+        mapping (address => uint) aMap;
+        address[] anArray;
+
+        function getAMap(mapping(address => uint) storage m) internal view returns (bool) {
+            return m[address(0)] == 0;
+        }
+
+        function getArray(address[] calldata a) public pure returns (bool) {
+            return a[0] == address(0);
+        }
 
         function getState() public view returns (State) {
             return state;

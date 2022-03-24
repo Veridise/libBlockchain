@@ -3,14 +3,20 @@
 //
 
 #include "../include/BlkArrayType.h"
+#include "../include/BlkTypeVisitor.h"
 
 namespace blockchain {
-    BlkArrayType::BlkArrayType(BlkType *base) {
+    BlkArrayType::BlkArrayType(BlockchainToLLVM *blk2llvm, std::string &name, BlkType *base) : BlkType(blk2llvm, name) {
         baseType = base;
+        baseType->parent(this);
     }
 
-    BlkType &BlkArrayType::base() {
+    const BlkType &BlkArrayType::base() const {
         return *baseType;
+    }
+
+    void BlkArrayType::accept(BlkTypeVisitor &v) const {
+        return v.visit(*this);
     }
 
     BlkArrayType::~BlkArrayType() {

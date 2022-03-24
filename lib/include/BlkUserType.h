@@ -10,14 +10,14 @@
 #include "BlkType.h"
 
 namespace blockchain {
+    class BlkTypeVisitor;
     class BlkUserType : public BlkType {
     public:
-        BlkUserType(std::string &name, BlkStorage *referenced);
+        BlkUserType(BlockchainToLLVM *blk2llvm, std::string &name, BlkStorage *referenced);
         ~BlkUserType();
+        void accept(BlkTypeVisitor &v) const override;
         void setReferenced(BlkStorage *referenced);
-        std::string name();
     private:
-        std::string typeName;
         BlkStorage *ref;
     };
 }

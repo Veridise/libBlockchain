@@ -3,12 +3,16 @@
 //
 
 #include "../include/BlkFunction.h"
+#include "../include/BlockchainToLLVM.h"
 
 namespace blockchain {
-    BlkFunction::BlkFunction(std::string &name, vector<BlkVariable *> *params, vector<BlkVariable *> *rets, vector<string> *mods) {
-        fnName = name;
+    BlkFunction::BlkFunction(BlockchainToLLVM *blk2llvm, std::string &name, bool isCnstr, vector<BlkVariable *> *params,
+                             vector<BlkVariable *> *rets, vector<string> *mods) : BlkNode(blk2llvm, name){
+        fnIsConstructor = isCnstr;
         fnParams = params;
+        registerParent(fnParams);
         fnReturns = rets;
+        registerParent(fnReturns);
         fnMods = mods;
     }
 
@@ -18,7 +22,19 @@ namespace blockchain {
         delete fnMods;
     }
 
-    string BlkFunction::name() {
-        return fnName;
+    bool BlkFunction::isConstructor() const {
+        return fnIsConstructor;
+    }
+
+    const vector<BlkVariable *> &BlkFunction::parameters() const {
+        return *fnParams;
+    }
+
+    const vector<std::string> &BlkFunction::modifiers() const {
+        return *fnMods;
+    }
+
+    bool BlkFunction::isTranslation(const llvm::Function &fn) const {
+        return blkTollvm->isTranslation(*this, fn);
     }
 }

@@ -3,10 +3,10 @@
 //
 
 #include "../include/BlkUserType.h"
+#include "../include/BlkTypeVisitor.h"
 
 namespace blockchain {
-    BlkUserType::BlkUserType(std::string &name, BlkStorage *referenced) {
-        typeName = name;
+    BlkUserType::BlkUserType(BlockchainToLLVM *blk2llvm, std::string &name, BlkStorage *referenced) : BlkType(blk2llvm, name) {
         ref = referenced;
     }
 
@@ -19,7 +19,7 @@ namespace blockchain {
         }
     }
 
-    std::string BlkUserType::name() {
-        return typeName;
+    void BlkUserType::accept(BlkTypeVisitor &v) const {
+        return v.visit(*this);
     }
 }

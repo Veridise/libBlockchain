@@ -9,6 +9,7 @@
 #include <istreamwrapper.h>
 #include <stdexcept>
 #include <iostream>
+#include <../include/SolangToLLVM.h>
 
 using namespace std;
 
@@ -49,7 +50,8 @@ namespace blockchain {
         Blockchain *blockchain;
         auto contracts = new vector<BlkContract *>();
         if(compiler == "Solang") {
-            blockchain = new Solidity(compiler, version, contracts);
+            llvmTrans = new SolangToLLVM();
+            blockchain = new Solidity(llvmTrans, compiler, version, contracts);
         }
         else {
             error(string("Unknown compiler: ") + compiler);
@@ -130,7 +132,7 @@ namespace blockchain {
             }
         }
 
-        auto contract = new BlkContract(name, functions, variables, inherits, enums, structs, events);
+        auto contract = new BlkContract(llvmTrans, name, functions, variables, inherits, enums, structs, events);
         storageDecls[id] = contract;
         return contract;
     }
@@ -151,7 +153,7 @@ namespace blockchain {
             }
         }
 
-        auto aStruct = new BlkStruct(name, fields);
+        auto aStruct = new BlkStruct(llvmTrans, name, fields);
         storageDecls[id] = aStruct;
         return aStruct;
     }
@@ -175,15 +177,17 @@ namespace blockchain {
             }
         }
 
-        auto anEnum = new BlkEnum(name, values);
+        auto anEnum = new BlkEnum(llvmTrans, name, values);
         storageDecls[id] = anEnum;
         return anEnum;
     }
 
     BlkFunction *SummaryReader::readFunction(rapidjson::Value &val) {
         require(val.HasMember("name") && val["name"].IsString(), "Function must have a name");
+        require(val.HasMember("isConstructor") && val["isConstructor"].IsBool(), "Must identify if function is a constructor");
 
         string name = val["name"].GetString();
+        bool isConstructor = val["isConstructor"].GetBool();
 
         auto params = new vector<BlkVariable *>();
         if(val.HasMember("params")) {
@@ -214,7 +218,7 @@ namespace blockchain {
             }
         }
 
-        return new BlkFunction(name, params, returns, modifiers);
+        return new BlkFunction(llvmTrans, name, isConstructor, params, returns, modifiers);
     }
 
     BlkVariable *SummaryReader::readVariable(rapidjson::Value &val) {
@@ -228,7 +232,7 @@ namespace blockchain {
             name = val["name"].GetString();
         }
 
-        return new BlkVariable(name, type);
+        return new BlkVariable(llvmTrans, name, type);
     }
 
     BlkType *SummaryReader::readType(rapidjson::Value &val) {
@@ -257,9 +261,11 @@ namespace blockchain {
         string subType = val["subType"].GetString();
         require(subType == "ArrayType");
 
+        require(val.HasMember("name") && val["name"].IsString(), "ArrayType must have a name");
         require(val.HasMember("base"), "ArrayType must have a base type");
         BlkType *base = readType(val["base"]);
-        return new BlkArrayType(base);
+        string name = val["name"].GetString();
+        return new BlkArrayType(llvmTrans, name, base);
     }
 
     BlkUserType *SummaryReader::readUserType(rapidjson::Value &val) {
@@ -273,7 +279,7 @@ namespace blockchain {
         string name = val["name"].GetString();
         uint id = val["refId"].GetUint();
 
-        auto userType = new BlkUserType(name, nullptr);
+        auto userType = new BlkUserType(llvmTrans, name, nullptr);
         storageRefs[userType] = id;
 
         return userType;
@@ -284,11 +290,13 @@ namespace blockchain {
         string subType = val["subType"].GetString();
         require(subType == "MapType");
 
+        require(val.HasMember("name") && val["name"].IsString(), "MapType must have a name");
         require(val.HasMember("key"), "MapType must have a key type");
         require(val.HasMember("value"), "MapType must have a value type");
         BlkType *key = readType(val["key"]);
         BlkType *value = readType(val["value"]);
-        return new BlkMapType(key, value);
+        string name = val["name"].GetString();
+        return new BlkMapType(llvmTrans, name, key, value);
     }
 
     BlkElementaryType *SummaryReader::readElementaryType(rapidjson::Value &val) {
@@ -298,6 +306,6 @@ namespace blockchain {
 
         require(val.HasMember("name") && val["name"].IsString(), "ElementaryType must have a name");
         string name = val["name"].GetString();
-        return new BlkElementaryType(name);
+        return new BlkElementaryType(llvmTrans, name);
     }
 }

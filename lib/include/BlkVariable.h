@@ -13,11 +13,10 @@ using namespace std;
 namespace blockchain {
     class BlkVariable : public BlkNode {
     public:
-        BlkVariable(string &name, BlkType *type);
+        BlkVariable(BlockchainToLLVM *blk2llvm, string &name, BlkType *type);
         ~BlkVariable();
-        string name();
+        const BlkType &type() const;
     private:
-        string varName;
         BlkType *varType;
     };
 }

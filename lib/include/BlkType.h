@@ -9,8 +9,12 @@
 #include "BlkNode.h"
 
 namespace blockchain {
+    class BlkTypeVisitor;
     class BlkType : public BlkNode {
-
+    public:
+        explicit BlkType(BlockchainToLLVM *blk2llvm, std::string &name) : BlkNode(blk2llvm, name) {}
+        virtual ~BlkType() = default;
+        virtual void accept(BlkTypeVisitor &v) const = 0;
     };
 }
 

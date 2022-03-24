@@ -10,9 +10,10 @@
 namespace blockchain {
     class BlkArrayType : public BlkType {
     public:
-        explicit BlkArrayType(BlkType *base);
-        BlkType &base();
+        explicit BlkArrayType(BlockchainToLLVM *blk2llvm, std::string &name, BlkType *base);
+        const BlkType &base() const;
         ~BlkArrayType();
+        void accept(BlkTypeVisitor &v) const override;
     private:
         BlkType *baseType;
     };

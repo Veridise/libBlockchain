@@ -15,15 +15,16 @@ using namespace llvm;
 using namespace blockchain;
 
 namespace blockchainTest {
-    class BlockchainTest : public FunctionPass  {
+    class BlockchainTest : public ModulePass  {
     public:
         static char ID;
         BlockchainTest();
         ~BlockchainTest();
-        bool runOnFunction(Function &F) override;
+        bool runOnModule(Module &mod) override;
     private:
+        map<const BlkFunction *, int> fnCount;
+        int externalCallCnt = 0;
         Blockchain *blockchain;
-        map<BlkFunction *, int> fnCount;
     };
 }
 

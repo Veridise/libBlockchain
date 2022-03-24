@@ -4,27 +4,67 @@
 
 #include "../include/Blockchain.h"
 #include "../include/Solidity.h"
+#include "../include/BlockchainToLLVM.h"
 
 
 namespace blockchain {
-    Solidity::Solidity(string &c, string &v, vector<BlkContract *> *contracts) {
-        srcCompiler = c;
+    Solidity::Solidity(BlockchainToLLVM *blk2llvm, string &c, string &v, vector<BlkContract *> *contracts) : Blockchain(blk2llvm, c) {
         srcVersion = v;
         solContracts = contracts;
     }
 
     Solidity::~Solidity() {
-        if(solContracts != nullptr) {
-            for(auto c : *solContracts) {
-                delete c;
-            }
-            solContracts->clear();
-        }
-        delete solContracts;
+        deleter(solContracts);
+        delete blkTollvm;
     }
 
-    bool Solidity::allowsReentrancy() {
+    bool Solidity::allowsReentrancy() const {
         return true;
+    }
+
+    bool Solidity::isContractFunction(const Function &fn) const {
+        return findDeclaringContract(fn) != nullptr;
+    }
+
+    const vector<BlkContract *> &Solidity::contracts() const {
+        return *solContracts;
+    }
+
+    const BlkFunction *Solidity::findFunction(const Function &fn) const {
+        for(auto contract : *solContracts) {
+            const BlkFunction *blkFn = contract->findFunction(fn);
+            if(blkFn != nullptr) {
+                return blkFn;
+            }
+        }
+
+        return nullptr;
+    }
+
+    const BlkContract *Solidity::findDeclaringContract(const Function &fn) const {
+        for(auto contract : *solContracts) {
+            if(contract->isContractFunction(fn)) {
+                return contract;
+            }
+        }
+
+        return nullptr;
+    }
+
+    bool Solidity::isAnyExternalCall(const Function &fn) const  {
+        return blkTollvm->isAnyExternalCall(fn);
+    }
+
+    bool Solidity::isCall(const Function &fn) const {
+        return blkTollvm->isCall(fn);
+    }
+
+    bool Solidity::isStaticCall(const Function &fn) const {
+        return blkTollvm->isStaticCall(fn);
+    }
+
+    bool Solidity::isDelegateCall(const Function &fn) const {
+        return blkTollvm->isDelegateCall(fn);
     }
 
     /*bool Solidity::isConstructor(Function &fn) {
@@ -46,8 +86,4 @@ namespace blockchain {
         BlkContract &contract = findDeclaringContract(fn);
         return contract.isPure(fn);
     }*/
-
-    const vector<BlkContract *> &Solidity::contracts() {
-        return *solContracts;
-    }
 }
