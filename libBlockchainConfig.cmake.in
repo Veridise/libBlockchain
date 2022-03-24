@@ -1,0 +1,12 @@
+
+
+get_filename_component(LIBBLOCKCHAIN_CMAKE_DIR "${CMAKE_CURRENT_LIST_FILE}" PATH)
+set(LIBBLOCKCHAIN_INCLUDE_DIRS "@CONF_INCLUDE_DIRS@")
+
+# Our library dependencies (contains definitions for IMPORTED targets)
+if(NOT TARGET Blockchain OR NOT TARGET BlockchainStatic)
+  include("${LIBBLOCKCHAIN_CMAKE_DIR}/libBlockchainTargets.cmake")
+endif()
+
+set(LIBBLOCKCHAIN_LIBRARIES Blockchain)
+set(LIBBLOCKCHAIN_STATIC_LIBRARIES BlockchainStatic)
