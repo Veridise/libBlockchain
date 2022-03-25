@@ -8,12 +8,15 @@
 #include <Blockchain.h>
 #include <BlkContract.h>
 #include "llvm/IR/Module.h"
+#include "llvm/Support/CommandLine.h"
 
 using namespace blockchain;
 
 namespace blockchainTest {
+    cl::opt<string> InputSummary("summary", cl::desc("Input Smart Contract Summary"), cl::value_desc("filename"), cl::Required);
+
     BlockchainTest::BlockchainTest() : ModulePass(ID) {
-        SummaryReader reader("test/summary.json");
+        SummaryReader reader(InputSummary);
         blockchain = reader.blockchain();
         externalCallCnt = 0;
         for(auto contract : blockchain->contracts()) {
