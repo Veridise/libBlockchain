@@ -35,7 +35,7 @@ namespace blockchain {
         const vector<BlkVariable *> &parameters() const;
         bool isTranslation(const llvm::Function &fn) const;
         bool isConstructor() const;
-        Visibility visibiltiy() const;
+        Visibility visibility() const;
         Mutability mutability() const;
 
         static Mutability toMutability(string mutStr);

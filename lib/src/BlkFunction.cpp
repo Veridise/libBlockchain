@@ -18,7 +18,7 @@ namespace blockchain {
         delete fnMods;
     }
 
-    Visibility BlkFunction::visibiltiy() const {
+    Visibility BlkFunction::visibility() const {
         return visible;
     }
 
