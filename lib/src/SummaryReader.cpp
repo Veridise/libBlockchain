@@ -185,9 +185,13 @@ namespace blockchain {
     BlkFunction *SummaryReader::readFunction(rapidjson::Value &val) {
         require(val.HasMember("name") && val["name"].IsString(), "Function must have a name");
         require(val.HasMember("isConstructor") && val["isConstructor"].IsBool(), "Must identify if function is a constructor");
+        require(val.HasMember("visibility") && val["visibility"].IsString(), "Function must have a visibility");
+        require(val.HasMember("mutability") && val["mutability"].IsString(), "Function must have a mutability");
 
         string name = val["name"].GetString();
         bool isConstructor = val["isConstructor"].GetBool();
+        Visibility visibility = BlkFunction::toVisibility(val["visibility"].GetString());
+        Mutability mutability = BlkFunction::toMutability(val["mutability"].GetString());
 
         auto params = new vector<BlkVariable *>();
         if(val.HasMember("params")) {
@@ -218,7 +222,7 @@ namespace blockchain {
             }
         }
 
-        return new BlkFunction(llvmTrans, name, isConstructor, params, returns, modifiers);
+        return new BlkFunction(llvmTrans, name, isConstructor, visibility, mutability, params, returns, modifiers);
     }
 
     BlkVariable *SummaryReader::readVariable(rapidjson::Value &val) {

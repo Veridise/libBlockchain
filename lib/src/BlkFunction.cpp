@@ -6,20 +6,24 @@
 #include "../include/BlockchainToLLVM.h"
 
 namespace blockchain {
-    BlkFunction::BlkFunction(BlockchainToLLVM *blk2llvm, std::string &name, bool isCnstr, vector<BlkVariable *> *params,
-                             vector<BlkVariable *> *rets, vector<string> *mods) : BlkNode(blk2llvm, name){
-        fnIsConstructor = isCnstr;
-        fnParams = params;
+    BlkFunction::BlkFunction(BlockchainToLLVM *blk2llvm, std::string &name, bool isCnstr, Visibility visibility, Mutability mutability, vector<BlkVariable *> *params,
+                             vector<BlkVariable *> *rets, vector<string> *mods) : fnIsConstructor(isCnstr), visible(visibility), mut(mutability), fnParams(params), fnReturns(rets), fnMods(mods), BlkNode(blk2llvm, name) {
         registerParent(fnParams);
-        fnReturns = rets;
         registerParent(fnReturns);
-        fnMods = mods;
     }
 
     BlkFunction::~BlkFunction() {
         deleter(fnParams);
         deleter(fnReturns);
         delete fnMods;
+    }
+
+    Visibility BlkFunction::visibiltiy() const {
+        return visible;
+    }
+
+    Mutability BlkFunction::mutability() const {
+        return mut;
     }
 
     bool BlkFunction::isConstructor() const {
@@ -36,5 +40,24 @@ namespace blockchain {
 
     bool BlkFunction::isTranslation(const llvm::Function &fn) const {
         return blkTollvm->isTranslation(*this, fn);
+    }
+
+    Visibility BlkFunction::toVisibility(string visStr) {
+        if(visStr == "external") { return EXTERNAL; }
+        if(visStr == "public") { return PUBLIC; }
+        if(visStr == "internal") { return INTERNAL; }
+        if(visStr == "private") { return PRIVATE; }
+        if(visStr == "default") { return DEFAULT; }
+
+        throw runtime_error("Unknown visibility " + visStr);
+    }
+
+    Mutability BlkFunction::toMutability(string mutStr) {
+        if(mutStr == "pure") { return PURE; }
+        if(mutStr == "view") { return VIEW; }
+        if(mutStr == "payable") { return PAYABLE; }
+        if(mutStr == "nonpayable") { return NONPAYABLE; }
+
+        throw runtime_error("Unknown mutability " + mutStr);
     }
 }

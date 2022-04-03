@@ -32,6 +32,8 @@
           ],
           "modifiers": [],
           "isConstructor": false,
+          "visibility": "internal",
+          "mutability": "view",
           "name": "getAMap"
         },
         {
@@ -58,6 +60,8 @@
           ],
           "modifiers": [],
           "isConstructor": false,
+          "visibility": "public",
+          "mutability": "pure",
           "name": "getArray"
         },
         {
@@ -73,6 +77,8 @@
           ],
           "modifiers": [],
           "isConstructor": false,
+          "visibility": "public",
+          "mutability": "view",
           "name": "getState"
         },
         {
@@ -88,6 +94,8 @@
           "returns": [],
           "modifiers": [],
           "isConstructor": false,
+          "visibility": "public",
+          "mutability": "nonpayable",
           "name": "setPid"
         },
         {
@@ -102,6 +110,8 @@
           ],
           "modifiers": [],
           "isConstructor": false,
+          "visibility": "public",
+          "mutability": "view",
           "name": "getPid"
         },
         {
@@ -116,6 +126,8 @@
           ],
           "modifiers": [],
           "isConstructor": false,
+          "visibility": "public",
+          "mutability": "view",
           "name": "getReaped"
         },
         {
@@ -131,6 +143,8 @@
           "returns": [],
           "modifiers": [],
           "isConstructor": true,
+          "visibility": "public",
+          "mutability": "nonpayable",
           "name": "constructor"
         },
         {
@@ -145,6 +159,8 @@
           ],
           "modifiers": [],
           "isConstructor": false,
+          "visibility": "public",
+          "mutability": "view",
           "name": "is_zombie_reaper"
         },
         {
@@ -159,6 +175,8 @@
           ],
           "modifiers": [],
           "isConstructor": false,
+          "visibility": "public",
+          "mutability": "pure",
           "name": "systemd_pid"
         },
         {
@@ -181,6 +199,8 @@
           ],
           "modifiers": [],
           "isConstructor": false,
+          "visibility": "public",
+          "mutability": "pure",
           "name": "celcius2fahrenheit"
         },
         {
@@ -210,6 +230,8 @@
           ],
           "modifiers": [],
           "isConstructor": false,
+          "visibility": "public",
+          "mutability": "pure",
           "name": "v_mul"
         },
         {
@@ -239,6 +261,8 @@
           ],
           "modifiers": [],
           "isConstructor": false,
+          "visibility": "public",
+          "mutability": "pure",
           "name": "v_div"
         },
         {
@@ -268,6 +292,8 @@
           ],
           "modifiers": [],
           "isConstructor": false,
+          "visibility": "public",
+          "mutability": "pure",
           "name": "v_add"
         },
         {
@@ -290,6 +316,8 @@
           ],
           "modifiers": [],
           "isConstructor": false,
+          "visibility": "public",
+          "mutability": "pure",
           "name": "celcius2fahrenheit1"
         },
         {
@@ -312,6 +340,8 @@
           ],
           "modifiers": [],
           "isConstructor": false,
+          "visibility": "public",
+          "mutability": "pure",
           "name": "fahrenheit2celcius"
         },
         {
@@ -334,6 +364,8 @@
           ],
           "modifiers": [],
           "isConstructor": false,
+          "visibility": "public",
+          "mutability": "pure",
           "name": "is_power_of_2"
         },
         {
@@ -357,6 +389,8 @@
           ],
           "modifiers": [],
           "isConstructor": false,
+          "visibility": "public",
+          "mutability": "pure",
           "name": "population_count"
         },
         {
@@ -386,6 +420,8 @@
           ],
           "modifiers": [],
           "isConstructor": false,
+          "visibility": "public",
+          "mutability": "pure",
           "name": "power"
         },
         {
@@ -408,6 +444,8 @@
           ],
           "modifiers": [],
           "isConstructor": false,
+          "visibility": "public",
+          "mutability": "pure",
           "name": "is_address_zero"
         },
         {
@@ -431,6 +469,8 @@
           ],
           "modifiers": [],
           "isConstructor": false,
+          "visibility": "public",
+          "mutability": "pure",
           "name": "byte8reverse"
         },
         {
@@ -454,6 +494,8 @@
           ],
           "modifiers": [],
           "isConstructor": false,
+          "visibility": "private",
+          "mutability": "pure",
           "name": "get_pid_state"
         },
         {
@@ -468,6 +510,8 @@
           ],
           "modifiers": [],
           "isConstructor": false,
+          "visibility": "private",
+          "mutability": "view",
           "name": "get_pid_state"
         },
         {
@@ -475,6 +519,8 @@
           "returns": [],
           "modifiers": [],
           "isConstructor": false,
+          "visibility": "public",
+          "mutability": "nonpayable",
           "name": "reap_processes"
         },
         {
@@ -489,6 +535,8 @@
           ],
           "modifiers": [],
           "isConstructor": false,
+          "visibility": "public",
+          "mutability": "pure",
           "name": "run_queue"
         },
         {
@@ -513,6 +561,8 @@
           ],
           "modifiers": [],
           "isConstructor": false,
+          "visibility": "public",
+          "mutability": "pure",
           "name": "getCardV"
         },
         {
@@ -537,6 +587,8 @@
           ],
           "modifiers": [],
           "isConstructor": false,
+          "visibility": "public",
+          "mutability": "pure",
           "name": "getCardS"
         },
         {
@@ -552,6 +604,8 @@
           ],
           "modifiers": [],
           "isConstructor": false,
+          "visibility": "public",
+          "mutability": "view",
           "name": "getCard1"
         },
         {
@@ -567,6 +621,8 @@
           ],
           "modifiers": [],
           "isConstructor": false,
+          "visibility": "public",
+          "mutability": "view",
           "name": "getCard2"
         },
         {
@@ -583,6 +639,8 @@
           "returns": [],
           "modifiers": [],
           "isConstructor": false,
+          "visibility": "public",
+          "mutability": "nonpayable",
           "name": "setCard1"
         },
         {
@@ -615,6 +673,8 @@
           ],
           "modifiers": [],
           "isConstructor": false,
+          "visibility": "public",
+          "mutability": "pure",
           "name": "createCard"
         },
         {
@@ -640,6 +700,8 @@
           ],
           "modifiers": [],
           "isConstructor": false,
+          "visibility": "public",
+          "mutability": "nonpayable",
           "name": "set_card1"
         },
         {
@@ -655,6 +717,8 @@
           ],
           "modifiers": [],
           "isConstructor": false,
+          "visibility": "public",
+          "mutability": "pure",
           "name": "ace_of_spades"
         },
         {
@@ -679,6 +743,8 @@
           ],
           "modifiers": [],
           "isConstructor": false,
+          "visibility": "public",
+          "mutability": "pure",
           "name": "score_card"
         }
       ],

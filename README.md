@@ -11,8 +11,7 @@ in question.
  * CMake
 
 ## Build
-To build, please execute the following commands. It should be noted that our build process expects the environment
-variable LLVM_HOME to be set to the base directory of the LLVM 13 installation. 
+To build, please execute the following commands. 
 
 ```bash
 export LLVM_HOME=<home_llvm_dir>

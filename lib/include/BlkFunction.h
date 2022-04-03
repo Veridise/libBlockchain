@@ -12,19 +12,41 @@
 
 using namespace std;
 namespace blockchain {
+    enum Mutability {
+        PURE,
+        VIEW,
+        PAYABLE,
+        NONPAYABLE
+    };
+
+    enum Visibility {
+        EXTERNAL,
+        PUBLIC,
+        INTERNAL,
+        PRIVATE,
+        DEFAULT
+    };
+
     class BlkFunction : public BlkNode {
     public:
-        BlkFunction(BlockchainToLLVM *blk2llvm, std::string &name, bool isCnstr, vector<BlkVariable *> *params, vector<BlkVariable *> *rets, vector<string> *mods);
+        BlkFunction(BlockchainToLLVM *blk2llvm, std::string &name, bool isCnstr, Visibility visibility, Mutability mutability, vector<BlkVariable *> *params, vector<BlkVariable *> *rets, vector<string> *mods);
         ~BlkFunction();
         const vector<std::string> &modifiers() const;
         const vector<BlkVariable *> &parameters() const;
         bool isTranslation(const llvm::Function &fn) const;
         bool isConstructor() const;
+        Visibility visibiltiy() const;
+        Mutability mutability() const;
+
+        static Mutability toMutability(string mutStr);
+        static Visibility toVisibility(string visStr);
     private:
         bool fnIsConstructor;
         vector<BlkVariable *> *fnParams;
         vector<BlkVariable *> *fnReturns;
         vector<std::string> *fnMods;
+        Visibility visible;
+        Mutability mut;
     };
 }
 
