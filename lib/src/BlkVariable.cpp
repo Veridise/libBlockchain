@@ -6,7 +6,7 @@
 
 
 namespace blockchain {
-    BlkVariable::BlkVariable(BlockchainToLLVM *blk2llvm, string &name, BlkType *type) : BlkNode(blk2llvm, name) {
+    BlkVariable::BlkVariable(BlockchainToLLVM *blk2llvm, string &name, BlkType *type) : BlkNode(VARIABLE, blk2llvm, name) {
         varType = type;
         type->parent(this);
     }

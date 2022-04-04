@@ -6,7 +6,7 @@
 #include "../include/BlkTypeVisitor.h"
 
 namespace blockchain {
-    BlkUserType::BlkUserType(BlockchainToLLVM *blk2llvm, std::string &name, BlkStorage *referenced) : BlkType(blk2llvm, name) {
+    BlkUserType::BlkUserType(BlockchainToLLVM *blk2llvm, std::string &name, BlkStorage *referenced) : BlkType(USER_TYPE, blk2llvm, name) {
         ref = referenced;
     }
 

@@ -8,7 +8,7 @@
 
 
 namespace blockchain {
-    Solidity::Solidity(BlockchainToLLVM *blk2llvm, string &c, string &v, vector<BlkContract *> *contracts) : Blockchain(blk2llvm, c) {
+    Solidity::Solidity(BlockchainToLLVM *blk2llvm, string &c, string &v, vector<BlkContract *> *contracts) : Blockchain(SOLIDITY, blk2llvm, c) {
         srcVersion = v;
         solContracts = contracts;
     }

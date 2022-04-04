@@ -13,6 +13,15 @@ namespace blockchain {
     public:
         Solidity(BlockchainToLLVM *blk2llvm, string &c, string &v, vector<BlkContract *> *contracts);
         ~Solidity();
+
+        static inline bool classof(const Solidity &) { return true; }
+        static inline bool classof(const Solidity *) { return true; }
+        static inline bool classof(const BlkNode *node) { return classof(*node); }
+        static inline bool classof(const BlkNode &node) {
+            if(node.type() == SOLIDITY) { return true; }
+            return false;
+        }
+
         bool allowsReentrancy() const override;
         //virtual bool isConstructor(Function &fn) = 0;
         //bool isExternalCall(Instruction &ins) const override;

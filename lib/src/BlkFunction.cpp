@@ -7,7 +7,7 @@
 
 namespace blockchain {
     BlkFunction::BlkFunction(BlockchainToLLVM *blk2llvm, std::string &name, bool isCnstr, Visibility visibility, Mutability mutability, vector<BlkVariable *> *params,
-                             vector<BlkVariable *> *rets, vector<string> *mods) : fnIsConstructor(isCnstr), visible(visibility), mut(mutability), fnParams(params), fnReturns(rets), fnMods(mods), BlkNode(blk2llvm, name) {
+                             vector<BlkVariable *> *rets, vector<string> *mods) : fnIsConstructor(isCnstr), visible(visibility), mut(mutability), fnParams(params), fnReturns(rets), fnMods(mods), BlkNode(FUNCTION, blk2llvm, name) {
         registerParent(fnParams);
         registerParent(fnReturns);
     }

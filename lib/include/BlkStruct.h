@@ -18,6 +18,14 @@ namespace blockchain {
     public:
         BlkStruct(BlockchainToLLVM *blk2llvm, string &name, vector<BlkVariable *> *fields);
         ~BlkStruct();
+
+        static inline bool classof(const BlkStruct &) { return true; }
+        static inline bool classof(const BlkStruct *) { return true; }
+        static inline bool classof(const BlkNode *node) { return classof(*node); }
+        static inline bool classof(const BlkNode &node) {
+            if(node.type() == STRUCT) { return true; }
+            return false;
+        }
     private:
         vector<BlkVariable *> *structFields;
     };

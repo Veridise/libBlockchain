@@ -15,6 +15,15 @@ namespace blockchain {
     public:
         BlkUserType(BlockchainToLLVM *blk2llvm, std::string &name, BlkStorage *referenced);
         ~BlkUserType();
+
+        static inline bool classof(const BlkUserType &) { return true; }
+        static inline bool classof(const BlkUserType *) { return true; }
+        static inline bool classof(const BlkNode *node) { return classof(*node); }
+        static inline bool classof(const BlkNode &node) {
+            if(node.type() == USER_TYPE) { return true; }
+            return false;
+        }
+
         void accept(BlkTypeVisitor &v) const override;
         void setReferenced(BlkStorage *referenced);
     private:

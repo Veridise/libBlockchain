@@ -6,7 +6,7 @@
 #include "../include/BlkTypeVisitor.h"
 
 namespace blockchain {
-    BlkElementaryType::BlkElementaryType(BlockchainToLLVM *blk2llvm, std::string &name) : BlkType(blk2llvm, name) {}
+    BlkElementaryType::BlkElementaryType(BlockchainToLLVM *blk2llvm, std::string &name) : BlkType(ELEMENTARY_TYPE, blk2llvm, name) {}
 
     BlkElementaryType::~BlkElementaryType() = default;
 

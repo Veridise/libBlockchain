@@ -5,7 +5,7 @@
 #include "../include/BlkStruct.h"
 
 namespace blockchain {
-    BlkStruct::BlkStruct(BlockchainToLLVM *blk2llvm, string &name, vector<BlkVariable *> *fields) : BlkStorage (blk2llvm, name) {
+    BlkStruct::BlkStruct(BlockchainToLLVM *blk2llvm, string &name, vector<BlkVariable *> *fields) : BlkStorage (STRUCT, blk2llvm, name) {
         structFields = fields;
         registerParent(structFields);
     }

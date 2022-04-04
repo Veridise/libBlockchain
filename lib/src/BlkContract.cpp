@@ -7,7 +7,7 @@
 
 namespace blockchain {
     BlkContract::BlkContract(BlockchainToLLVM *blk2llvm, string &name, vector<BlkFunction *> *fns, vector<BlkVariable *> *vars, vector<BlkUserType *> *inherits,
-            vector<BlkEnum *> *enums, vector<BlkStruct *> *structs, vector<BlkFunction *> *events) : BlkStorage(blk2llvm, name) {
+            vector<BlkEnum *> *enums, vector<BlkStruct *> *structs, vector<BlkFunction *> *events) : BlkStorage(CONTRACT, blk2llvm, name) {
         contractFns = fns;
         registerParent(contractFns);
         contractVars = vars;
@@ -29,6 +29,25 @@ namespace blockchain {
         deleter(contractStructs);
         deleter(contractVars);
         deleter(contractFns);
+    }
+
+    vector<BlkContract *> BlkContract::inherits() const {
+        vector<BlkContract *> inherits;
+
+        for(auto inherit : *contractInherits) {
+            if(auto inheritFrom = dyn_cast<BlkContract>(inherit)) {
+                inherits.push_back(inheritFrom);
+            }
+            else {
+                throw std::runtime_error("Must inherit from contracts");
+            }
+        }
+
+        return inherits;
+    }
+
+    const vector<BlkVariable *> &BlkContract::variables() const {
+        return *contractVars;
     }
 
     bool BlkContract::isContractFunction(const Function &fn) const {

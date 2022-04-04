@@ -16,7 +16,16 @@ using namespace std;
 namespace blockchain {
     class Blockchain : public BlkNode {
     public:
-        Blockchain(BlockchainToLLVM *blk2llvm, string &name) : BlkNode(blk2llvm, name) {}
+        Blockchain(NodeType t, BlockchainToLLVM *blk2llvm, string &name) : BlkNode(t, blk2llvm, name) {}
+
+        static inline bool classof(const Blockchain &) { return true; }
+        static inline bool classof(const Blockchain *) { return true; }
+        static inline bool classof(const BlkNode *node) { return classof(*node); }
+        static inline bool classof(const BlkNode &node) {
+            if(node.type() >= BLOCKCHAIN_BEGIN && node.type() <= BLOCKCHAIN_END) { return true; }
+            return false;
+        }
+
         virtual ~Blockchain() = default;
         virtual bool allowsReentrancy() const = 0;
         //virtual bool isConstructor(Function &fn) = 0;

@@ -6,7 +6,7 @@
 #include "../include/BlkTypeVisitor.h"
 
 namespace blockchain {
-    BlkArrayType::BlkArrayType(BlockchainToLLVM *blk2llvm, std::string &name, BlkType *base) : BlkType(blk2llvm, name) {
+    BlkArrayType::BlkArrayType(BlockchainToLLVM *blk2llvm, std::string &name, BlkType *base) : BlkType(ARRAY_TYPE, blk2llvm, name) {
         baseType = base;
         baseType->parent(this);
     }

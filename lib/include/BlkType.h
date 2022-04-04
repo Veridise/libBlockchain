@@ -12,8 +12,17 @@ namespace blockchain {
     class BlkTypeVisitor;
     class BlkType : public BlkNode {
     public:
-        explicit BlkType(BlockchainToLLVM *blk2llvm, std::string &name) : BlkNode(blk2llvm, name) {}
+        explicit BlkType(NodeType t, BlockchainToLLVM *blk2llvm, std::string &name) : BlkNode(t, blk2llvm, name) {}
         virtual ~BlkType() = default;
+
+        static inline bool classof(const BlkType &) { return true; }
+        static inline bool classof(const BlkType *) { return true; }
+        static inline bool classof(const BlkNode *node) { return classof(*node); }
+        static inline bool classof(const BlkNode &node) {
+            if(node.type() >= TYPE_BEGIN && node.type() <= TYPE_END) { return true; }
+            return false;
+        }
+
         virtual void accept(BlkTypeVisitor &v) const = 0;
     };
 }

@@ -6,7 +6,7 @@
 #include "../include/BlkTypeVisitor.h"
 
 namespace blockchain {
-    BlkMapType::BlkMapType(BlockchainToLLVM *blk2llvm, std::string &name, BlkType *key, BlkType *val) : BlkType(blk2llvm, name) {
+    BlkMapType::BlkMapType(BlockchainToLLVM *blk2llvm, std::string &name, BlkType *key, BlkType *val) : BlkType(MAP_TYPE, blk2llvm, name) {
         keyType = key;
         keyType->parent(this);
         valueType = val;

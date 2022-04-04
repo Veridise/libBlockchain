@@ -16,6 +16,14 @@ namespace blockchain {
     public:
         BlkEnum(BlockchainToLLVM *blk2llvm, string &name, map<std::string, int> *values);
         ~BlkEnum();
+
+        static inline bool classof(const BlkEnum &) { return true; }
+        static inline bool classof(const BlkEnum *) { return true; }
+        static inline bool classof(const BlkNode *node) { return classof(*node); }
+        static inline bool classof(const BlkNode &node) {
+            if(node.type() == ENUM) { return true; }
+            return false;
+        }
     private:
         map<std::string, int> *values;
     };

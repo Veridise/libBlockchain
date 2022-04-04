@@ -31,6 +31,15 @@ namespace blockchain {
     public:
         BlkFunction(BlockchainToLLVM *blk2llvm, std::string &name, bool isCnstr, Visibility visibility, Mutability mutability, vector<BlkVariable *> *params, vector<BlkVariable *> *rets, vector<string> *mods);
         ~BlkFunction();
+
+        static inline bool classof(const BlkFunction &) { return true; }
+        static inline bool classof(const BlkFunction *) { return true; }
+        static inline bool classof(const BlkNode *node) { return classof(*node); }
+        static inline bool classof(const BlkNode &node) {
+            if(node.type() == FUNCTION) { return true; }
+            return false;
+        }
+
         const vector<std::string> &modifiers() const;
         const vector<BlkVariable *> &parameters() const;
         bool isTranslation(const llvm::Function &fn) const;

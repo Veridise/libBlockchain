@@ -6,11 +6,7 @@
 #include "BlockchainToLLVM.h"
 
 namespace blockchain {
-    BlkNode::BlkNode(BlockchainToLLVM *blk2llvm, std::string &name) {
-        blkName = name;
-        blkTollvm = blk2llvm;
-        blkParent = nullptr;
-    }
+    BlkNode::BlkNode(NodeType t, BlockchainToLLVM *blk2llvm, std::string &name) : ty(t), blkName(name), blkTollvm(blk2llvm), blkParent(nullptr) {}
 
     std::string BlkNode::name() const {
         return blkName;
@@ -24,5 +20,9 @@ namespace blockchain {
 
     BlkNode *BlkNode::parent() const {
         return blkParent;
+    }
+
+    NodeType BlkNode::type() const {
+        return ty;
     }
 }
