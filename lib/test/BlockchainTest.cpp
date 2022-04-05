@@ -38,6 +38,7 @@ namespace blockchainTest {
             //if(fn.hasName()) {
             //    cout << fn.getName().str() << endl;
             //}
+            string fnName = fn.getName().str();
             const BlkFunction *blkFn = blockchain->findFunction(fn);
             if(blkFn != nullptr) {
                 //cout << blkFn->name() << " == " << fn.getName().str() << endl;

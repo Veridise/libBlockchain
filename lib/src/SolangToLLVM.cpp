@@ -57,7 +57,7 @@ namespace blockchain {
         }
 
         stringstream ss;
-        ss << "^" << blockchainFn.parent()->name() << ".*" << blockchainFn.name() ;
+        ss << ".*" << blockchainFn.parent()->name() << "::function::" << blockchainFn.name() ;
 
         if(blockchainFn.isConstructor()) {
             ss << ".*";
