@@ -10,13 +10,15 @@
 #include <stdexcept>
 #include <iostream>
 #include <../include/SolangToLLVM.h>
+#include "InkToLLVM.h"
+#include "Ink.h"
 
 using namespace std;
 
 namespace blockchain {
 
 
-    SummaryReader::SummaryReader(std::string projectFile) {
+    SummaryReader::SummaryReader(std::string projectFile, AAWrapper *alias) : alias(alias) {
         ifstream inStream(projectFile);
         rapidjson::IStreamWrapper jsonStream(inStream);
         cout << "starting" << endl;
@@ -52,6 +54,10 @@ namespace blockchain {
         if(compiler == "Solang") {
             llvmTrans = new SolangToLLVM();
             blockchain = new Solidity(llvmTrans, compiler, version, contracts);
+        }
+        else if(compiler == "cargo-contract") {
+            llvmTrans = new InkToLLVM();
+            blockchain = new Ink(llvmTrans, compiler, version, contracts, *alias);
         }
         else {
             error(string("Unknown compiler: ") + compiler);

@@ -12,6 +12,10 @@ set (Sources
         ${CMAKE_CURRENT_SOURCE_DIR}/SummaryReader.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/SolangToLLVM.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/BlkNode.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/Blockchain.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/Ink.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/InkToLLVM.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/AAWrapper.cpp
         )
 
 target_sources(Blockchain PRIVATE

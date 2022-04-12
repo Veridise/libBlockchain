@@ -15,8 +15,9 @@ using namespace blockchain;
 namespace blockchainTest {
     cl::opt<string> InputSummary("summary", cl::desc("Input Smart Contract Summary"), cl::value_desc("filename"), cl::Required);
 
-    BlockchainTest::BlockchainTest() : ModulePass(ID) {
-        SummaryReader reader(InputSummary);
+    BlockchainTest::BlockchainTest() : ModulePass(ID), alias(*this) {
+        //Reminder: Alias analysis isn't available until the runOn* part of the pass.
+        SummaryReader reader(InputSummary, &alias);
         blockchain = reader.blockchain();
         externalCallCnt = 0;
         for(auto contract : blockchain->contracts()) {
@@ -31,6 +32,10 @@ namespace blockchainTest {
     BlockchainTest::~BlockchainTest() {
         delete blockchain;
         //FunctionPass::~FunctionPass();
+    }
+
+    void BlockchainTest::getAnalysisUsage(llvm::AnalysisUsage &info) const  {
+        info.addRequired<llvm::AAResultsWrapperPass>();
     }
 
     bool BlockchainTest::runOnModule(Module &mod) {

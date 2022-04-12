@@ -8,6 +8,7 @@
 #include "llvm/IR/Function.h"
 #include "llvm/IR/Instruction.h"
 #include "BlkContract.h"
+#include "AAWrapper.h"
 #include <vector>
 
 using namespace llvm;
@@ -16,7 +17,8 @@ using namespace std;
 namespace blockchain {
     class Blockchain : public BlkNode {
     public:
-        Blockchain(NodeType t, BlockchainToLLVM *blk2llvm, string &name) : BlkNode(t, blk2llvm, name) {}
+        Blockchain(NodeType t, BlockchainToLLVM *blk2llvm, string &name, string &version, vector<BlkContract *> *contracts) : BlkNode(t, blk2llvm, name), srcVersion(version), allContracts(contracts) {}
+        ~Blockchain();
 
         static inline bool classof(const Blockchain &) { return true; }
         static inline bool classof(const Blockchain *) { return true; }
@@ -26,20 +28,19 @@ namespace blockchain {
             return false;
         }
 
-        virtual ~Blockchain() = default;
         virtual bool allowsReentrancy() const = 0;
-        //virtual bool isConstructor(Function &fn) = 0;
-        //virtual bool isExternalCall(const Instruction &ins) const = 0;
-        //virtual bool isView(Function &fn) = 0;
-        //virtual bool isPure(Function &fn) = 0;
-        virtual bool isContractFunction(const Function &fn) const = 0;
-        virtual const vector<BlkContract *> &contracts() const = 0;
-        virtual const BlkContract *findDeclaringContract(const Function &fn) const = 0;
-        virtual const BlkFunction *findFunction(const Function &fn) const = 0;
-        virtual bool isAnyExternalCall(const Function &fn) const = 0;
-        virtual bool isCall(const Function &fn) const = 0;
-        virtual bool isStaticCall(const Function &fn) const = 0;
-        virtual bool isDelegateCall(const Function &fn) const = 0;
+        virtual bool modifiesStorage(Instruction &ins) const = 0;
+        virtual bool isContractFunction(const Function &fn) const;
+        virtual const vector<BlkContract *> &contracts() const;
+        virtual const BlkContract *findDeclaringContract(const Function &fn) const;
+        virtual const BlkFunction *findFunction(const Function &fn) const;
+        virtual bool isAnyExternalCall(const Function &fn) const;
+        virtual bool isCall(const Function &fn) const;
+        virtual bool isStaticCall(const Function &fn) const;
+        virtual bool isDelegateCall(const Function &fn) const;
+    protected:
+        string srcVersion;
+        vector<BlkContract *> *allContracts;
     };
 }
 

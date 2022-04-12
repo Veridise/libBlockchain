@@ -20,11 +20,13 @@ namespace blockchainTest {
         static char ID;
         BlockchainTest();
         ~BlockchainTest();
+        void getAnalysisUsage(llvm::AnalysisUsage &info) const override;
         bool runOnModule(Module &mod) override;
     private:
         map<const BlkFunction *, int> fnCount;
         int externalCallCnt = 0;
         Blockchain *blockchain;
+        AAWrapper alias;
     };
 }
 

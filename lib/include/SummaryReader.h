@@ -25,13 +25,14 @@
 namespace blockchain {
     class SummaryReader{
     public:
-        SummaryReader(std::string projectFile);
+        SummaryReader(std::string projectFile, AAWrapper *alias);
         Blockchain *blockchain();
     private:
         std::map<int, BlkStorage *> storageDecls;
         std::map<BlkUserType *, int> storageRefs;
         BlockchainToLLVM *llvmTrans;
         Blockchain *summary;
+        AAWrapper *alias;
 
         Blockchain *readSummary(rapidjson::Value &val);
         BlkContract *readContract(rapidjson::Value &val);

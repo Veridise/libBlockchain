@@ -13,7 +13,8 @@ namespace blockchain {
     enum NodeType {
         BLOCKCHAIN_BEGIN,
         SOLIDITY = BLOCKCHAIN_BEGIN,
-        BLOCKCHAIN_END = SOLIDITY,
+        INK,
+        BLOCKCHAIN_END = INK,
         //storage
         STORAGE_BEGIN,
         CONTRACT = STORAGE_BEGIN,
