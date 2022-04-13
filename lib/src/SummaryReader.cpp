@@ -228,7 +228,13 @@ namespace blockchain {
             }
         }
 
-        return new BlkFunction(llvmTrans, name, isConstructor, visibility, mutability, params, returns, modifiers);
+        BlkFunction *fn = new BlkFunction(llvmTrans, name, isConstructor, visibility, mutability, params, returns, modifiers);
+
+        if(val.HasMember("selector")) {
+            fn->setSelector(val["selector"].GetString());
+        }
+
+        return fn;
     }
 
     BlkVariable *SummaryReader::readVariable(rapidjson::Value &val) {

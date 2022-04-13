@@ -40,6 +40,8 @@ namespace blockchain {
             return false;
         }
 
+        void setSelector(string selector);
+        string selector();
         const vector<std::string> &modifiers() const;
         const vector<BlkVariable *> &parameters() const;
         bool isTranslation(const llvm::Function &fn) const;
@@ -56,6 +58,7 @@ namespace blockchain {
         vector<std::string> *fnMods;
         Visibility visible;
         Mutability mut;
+        string fnSelector;
     };
 }
 
