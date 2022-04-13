@@ -45,4 +45,37 @@ namespace blockchain {
 
         return false;
     }
+
+    bool Ink::getsSender(const Instruction &ins) const {
+        if(auto call = dyn_cast<CallInst>(&ins)) {
+            auto fn = call->getCalledFunction();
+            if(InkToLLVM::isMsgSender(*fn)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    bool Ink::getsValue(const Instruction &ins) const {
+        if(auto call = dyn_cast<CallInst>(&ins)) {
+            auto fn = call->getCalledFunction();
+            if(InkToLLVM::isMsgValue(*fn)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    bool Ink::isSelfDestruct(const Instruction &ins) const {
+        if(auto call = dyn_cast<CallInst>(&ins)) {
+            auto fn = call->getCalledFunction();
+            if(InkToLLVM::isSelfDestruct(*fn)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }

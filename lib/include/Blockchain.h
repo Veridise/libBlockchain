@@ -28,7 +28,11 @@ namespace blockchain {
             return false;
         }
 
+
         virtual bool allowsReentrancy() const = 0;
+        virtual bool getsSender(const Instruction &ins) const = 0;
+        virtual bool getsValue(const Instruction &ins) const = 0;
+        virtual bool isSelfDestruct(const Instruction &ins) const = 0;
         virtual bool modifiesStorage(Instruction &ins) const = 0;
         virtual bool isContractFunction(const Function &fn) const;
         virtual const vector<BlkContract *> &contracts() const;

@@ -16,6 +16,9 @@ namespace blockchain {
         bool isStaticCall(const llvm::Function &llvmFn) const override;
         bool isDelegateCall(const llvm::Function &llvmFn) const override;
         static bool isLazyStore(const llvm::Function &llvmFn);
+        static bool isMsgSender(const llvm::Function &llvmFn);
+        static bool isMsgValue(const llvm::Function &llvmFn);
+        static bool isSelfDestruct(const llvm::Function &llvmFn);
     };
 }
 

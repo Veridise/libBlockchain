@@ -14,6 +14,50 @@
 #include "BlkTypeVisitor.h"
 
 namespace blockchain {
+    bool InkToLLVM::isSelfDestruct(const llvm::Function &fn) {
+        if(!fn.hasName()) {
+            return false;
+        }
+
+        string fnName = fn.getName().str();
+
+        stringstream ss;
+        ss << ".*ink_lang.*env_access.*EnvAccess.*terminate_contract[a-hA-F0-9]{20}$";
+
+        std::regex reg(ss.str());
+        return regex_match(fnName, reg);
+    }
+
+    bool InkToLLVM::isMsgSender(const llvm::Function &fn) {
+        //_ZN8ink_lang10env_access18EnvAccess$LT$E$GT$6caller17h56520365e2893a15E
+        if(!fn.hasName()) {
+            return false;
+        }
+
+        string fnName = fn.getName().str();
+
+        stringstream ss;
+        ss << ".*ink_lang.*env_access.*EnvAccess.*caller[a-hA-F0-9]{20}$";
+
+        std::regex reg(ss.str());
+        return regex_match(fnName, reg);
+    }
+
+    bool InkToLLVM::isMsgValue(const llvm::Function &fn) {
+        //ink_lang10env_access18EnvAccess$LT$E$GT$17transferred_value
+        if(!fn.hasName()) {
+            return false;
+        }
+
+        string fnName = fn.getName().str();
+
+        stringstream ss;
+        ss << ".*ink_lang.*env_access.*EnvAccess.*transferred_value[a-hA-F0-9]{20}$";
+
+        std::regex reg(ss.str());
+        return regex_match(fnName, reg);
+    }
+
     bool InkToLLVM::isLazyStore(const llvm::Function &fn) {
         if(!fn.hasName()) {
             return false;

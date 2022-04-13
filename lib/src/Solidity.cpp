@@ -26,4 +26,37 @@ namespace blockchain {
 
         return false;
     }
+
+    bool Solidity::getsSender(const Instruction &ins) const {
+        if(auto call = dyn_cast<CallInst>(&ins)) {
+            auto fn = call->getCalledFunction();
+            if(fn->hasName() && fn->getName().str() == "getCaller") {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    bool Solidity::getsValue(const Instruction &ins) const {
+        if(auto call = dyn_cast<CallInst>(&ins)) {
+            auto fn = call->getCalledFunction();
+            if(fn->hasName() && fn->getName().str() == "getCallValue") {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    bool Solidity::isSelfDestruct(const Instruction &ins) const {
+        if(auto call = dyn_cast<CallInst>(&ins)) {
+            auto fn = call->getCalledFunction();
+            if(fn->hasName() && fn->getName().str() == "selfDestruct") {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }
