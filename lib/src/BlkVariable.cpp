@@ -19,8 +19,8 @@ namespace blockchain {
         return *varTy;
     }
 
-    bool BlkVariable::modifiedBy(llvm::Instruction &ins) const {
-        return blkTollvm->modifiesVariable(*this, ins);
+    bool BlkVariable::writtenBy(llvm::Instruction &ins) const {
+        return blkTollvm->writesVariable(*this, ins);
     }
     bool BlkVariable::readBy(llvm::Instruction &ins) const {
         return blkTollvm->readsVariable(*this, ins);

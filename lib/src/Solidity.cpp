@@ -17,11 +17,11 @@ namespace blockchain {
         return true;
     }
 
-    bool Solidity::modifiesStorage(Instruction &ins) const {
+    bool Solidity::writesStorage(Instruction &ins) const {
         if (auto call = dyn_cast<CallInst>(&ins)) {
             auto fn = call->getCalledFunction();
 
-            return SolangToLLVM::modifiesStorage(*fn);
+            return SolangToLLVM::writesStorage(*fn);
 
             //assume assigns goes through setter
             /*auto fn = call->getCalledFunction();
@@ -37,7 +37,7 @@ namespace blockchain {
         if (auto call = dyn_cast<CallInst>(&ins)) {
             auto fn = call->getCalledFunction();
 
-            return SolangToLLVM::modifiesStorage(*fn);
+            return SolangToLLVM::readsStorage(*fn);
 
             //assume assigns goes through setter
             /*auto fn = call->getCalledFunction();

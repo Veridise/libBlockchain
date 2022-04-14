@@ -33,10 +33,10 @@ namespace blockchain {
         virtual bool getsSender(const Instruction &ins) const = 0;
         virtual bool getsValue(const Instruction &ins) const = 0;
         virtual bool isSelfDestruct(const Instruction &ins) const = 0;
-        virtual bool modifiesStorage(Instruction &ins) const = 0;
+        virtual bool writesStorage(Instruction &ins) const = 0;
         virtual bool readsStorage(Instruction &ins) const = 0;
         virtual BlkVariable *readStorageVariable(Instruction &ins) const;
-        virtual BlkVariable *modifiedStorageVariable(Instruction &ins) const;
+        virtual BlkVariable *writesStorageVariable(Instruction &ins) const;
         virtual bool isContractFunction(const Function &fn) const;
         virtual const vector<BlkContract *> &contracts() const;
         virtual const BlkContract *findDeclaringContract(const Function &fn) const;

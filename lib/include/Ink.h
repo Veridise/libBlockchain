@@ -22,7 +22,7 @@ namespace blockchain {
 
         bool allowsReentrancy() const override;
         bool readsStorage(Instruction &ins) const override;
-        bool modifiesStorage(Instruction &ins) const override;
+        bool writesStorage(Instruction &ins) const override;
         bool getsSender(const Instruction &ins) const override;
         bool getsValue(const Instruction &ins) const override;
         bool isSelfDestruct(const Instruction &ins) const override;

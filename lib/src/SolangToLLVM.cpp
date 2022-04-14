@@ -60,12 +60,13 @@ namespace blockchain {
         }
 
         stringstream ss;
-        ss << ".*" << blockchainFn.parent()->name() << "::function::" << blockchainFn.name() ;
+        ss << ".*" << blockchainFn.parent()->name() << "::";
 
         if(blockchainFn.isConstructor()) {
-            ss << ".*";
+            ss << blockchainFn.name() << ".*";
         }
         else {
+            ss << "function::" << blockchainFn.name() ;
             if(!blockchainFn.parameters().empty() || !blockchainFn.modifiers().empty()) {
                 ss << "__";
             }
@@ -113,10 +114,14 @@ namespace blockchain {
         return fn.getName().str() == "callDelegate";
     }
 
-    bool SolangToLLVM::modifiesVariable(const BlkVariable &var, llvm::Instruction &ins) const {
+    bool SolangToLLVM::writesVariable(const BlkVariable &var, llvm::Instruction &ins) const {
         if(auto call = dyn_cast<CallInst>(&ins)) {
             auto fn = call->getCalledFunction();
-            if(fn->hasName() && fn->getName().str() == ("v__set_" + var.name())) {
+            stringstream ss;
+            ss << ".*::function::v?__set_" << var.name() << ".*";
+            std::regex reg(ss.str());
+
+            if(fn->hasName() && regex_match(fn->getName().str(), reg)) {
                 return true;
             }
         }
@@ -127,7 +132,11 @@ namespace blockchain {
     bool SolangToLLVM::readsVariable(const BlkVariable &var, llvm::Instruction &ins) const {
         if(auto call = dyn_cast<CallInst>(&ins)) {
             auto fn = call->getCalledFunction();
-            if(fn->hasName() && fn->getName().str() == ("v__get_" + var.name())) {
+            stringstream ss;
+            ss << ".*::function::v?__get_" << var.name() << ".*";
+            std::regex reg(ss.str());
+
+            if(fn->hasName() && regex_match(fn->getName().str(), reg)) {
                 return true;
             }
         }
@@ -135,29 +144,29 @@ namespace blockchain {
         return false;
     }
 
-    bool SolangToLLVM::modifiesStorage(const llvm::Function &fn) {
-        if(!fn.hasName()) {
+    bool SolangToLLVM::writesStorage(const llvm::Function &llvmFn) {
+        if(!llvmFn.hasName()) {
             return false;
         }
 
-        string fnName = fn.getName().str();
+        string fnName = llvmFn.getName().str();
 
         stringstream ss;
-        ss << "^v__set_";
+        ss << ".*::function::" << "v?__set_.*";
 
         std::regex reg(ss.str());
         return regex_match(fnName, reg);
     }
 
-    bool SolangToLLVM::fetchesStorage(const llvm::Function &fn) {
-        if(!fn.hasName()) {
+    bool SolangToLLVM::readsStorage(const llvm::Function &llvmFn) {
+        if(!llvmFn.hasName()) {
             return false;
         }
 
-        string fnName = fn.getName().str();
+        string fnName = llvmFn.getName().str();
 
         stringstream ss;
-        ss << "^v__get_";
+        ss << ".*::function::" << "v?__get_.*";
 
         std::regex reg(ss.str());
         return regex_match(fnName, reg);

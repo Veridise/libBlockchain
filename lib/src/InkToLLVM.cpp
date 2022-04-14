@@ -87,7 +87,7 @@ namespace blockchain {
         throw runtime_error("error");
     }
 
-    bool InkToLLVM::modifiesVariable(const BlkVariable &var, llvm::Instruction &ins) const {
+    bool InkToLLVM::writesVariable(const BlkVariable &var, llvm::Instruction &ins) const {
         if(isMemoryStore(ins)){
             MemoryLocation storeLoc = getStoreLocation(ins);
 

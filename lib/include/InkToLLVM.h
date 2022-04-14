@@ -18,7 +18,7 @@ namespace blockchain {
         bool isCall(const llvm::Function &llvmFn) const override;
         bool isStaticCall(const llvm::Function &llvmFn) const override;
         bool isDelegateCall(const llvm::Function &llvmFn) const override;
-        bool modifiesVariable(const BlkVariable &var, llvm::Instruction &ins) const override;
+        bool writesVariable(const BlkVariable &var, llvm::Instruction &ins) const override;
         bool readsVariable(const BlkVariable &var, llvm::Instruction &ins) const override;
 
         static bool isLazyGet(const llvm::Function &llvmFn);

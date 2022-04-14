@@ -31,10 +31,10 @@ namespace blockchain {
         return nullptr;
     }
 
-    BlkVariable *Blockchain::modifiedStorageVariable(Instruction &ins) const {
+    BlkVariable *Blockchain::writesStorageVariable(Instruction &ins) const {
         for(auto contract : *allContracts) {
             for(auto var : contract->variables()) {
-                if(var->modifiedBy(ins)) {
+                if(var->writtenBy(ins)) {
                     return var;
                 }
             }

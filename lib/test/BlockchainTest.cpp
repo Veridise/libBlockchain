@@ -58,11 +58,11 @@ namespace blockchainTest {
 
             for(auto &bb : fn) {
                 for(auto &ins : bb) {
-                    if(blockchain->modifiesStorage(ins)) {
+                    if(blockchain->writesStorage(ins)) {
                         cout << fnName << endl;
                         ins.print(outs());
                         cout << endl;
-                        BlkVariable *var = blockchain->modifiedStorageVariable(ins);
+                        BlkVariable *var = blockchain->writesStorageVariable(ins);
                         if(var == nullptr) {
                             cout << "Cannot find the variable that's modified";
                         }

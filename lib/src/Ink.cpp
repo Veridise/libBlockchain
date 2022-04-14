@@ -15,7 +15,7 @@ namespace blockchain {
         return true;
     }
 
-    bool Ink::modifiesStorage(Instruction &ins) const {
+    bool Ink::writesStorage(Instruction &ins) const {
         auto fn = ins.getFunction();
         if(!isContractFunction(*fn)) {
             return false;
