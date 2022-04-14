@@ -5,6 +5,7 @@
 #include "../include/Blockchain.h"
 #include "../include/Solidity.h"
 #include "../include/BlockchainToLLVM.h"
+#include "SolangToLLVM.h"
 #include <llvm/IR/Instructions.h>
 
 
@@ -19,13 +20,36 @@ namespace blockchain {
     bool Solidity::modifiesStorage(Instruction &ins) const {
         if (auto call = dyn_cast<CallInst>(&ins)) {
             auto fn = call->getCalledFunction();
+
+            return SolangToLLVM::modifiesStorage(*fn);
+
+            //assume assigns goes through setter
+            /*auto fn = call->getCalledFunction();
             if(fn->hasName() && fn->getName().str() == "storageStore") {
                 return true;
-            }
+            }*/
         }
 
         return false;
     }
+
+    bool Solidity::readsStorage(Instruction &ins) const {
+        if (auto call = dyn_cast<CallInst>(&ins)) {
+            auto fn = call->getCalledFunction();
+
+            return SolangToLLVM::modifiesStorage(*fn);
+
+            //assume assigns goes through setter
+            /*auto fn = call->getCalledFunction();
+            if(fn->hasName() && fn->getName().str() == "storageStore") {
+                return true;
+            }*/
+        }
+
+        return false;
+    }
+
+
 
     bool Solidity::getsSender(const Instruction &ins) const {
         if(auto call = dyn_cast<CallInst>(&ins)) {

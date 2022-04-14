@@ -56,7 +56,7 @@ namespace blockchain {
             blockchain = new Solidity(llvmTrans, compiler, version, contracts);
         }
         else if(compiler == "cargo-contract") {
-            llvmTrans = new InkToLLVM();
+            llvmTrans = new InkToLLVM(*alias);
             blockchain = new Ink(llvmTrans, compiler, version, contracts, *alias);
         }
         else {

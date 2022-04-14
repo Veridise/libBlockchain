@@ -19,6 +19,30 @@ namespace blockchain {
         return *allContracts;
     }
 
+    BlkVariable *Blockchain::readStorageVariable(Instruction &ins) const {
+        for(auto contract : *allContracts) {
+            for(auto var : contract->variables()) {
+                if(var->readBy(ins)) {
+                    return var;
+                }
+            }
+        }
+
+        return nullptr;
+    }
+
+    BlkVariable *Blockchain::modifiedStorageVariable(Instruction &ins) const {
+        for(auto contract : *allContracts) {
+            for(auto var : contract->variables()) {
+                if(var->modifiedBy(ins)) {
+                    return var;
+                }
+            }
+        }
+
+        return nullptr;
+    }
+
     const BlkFunction *Blockchain::findFunction(const Function &fn) const {
         for(auto contract : *allContracts) {
             const BlkFunction *blkFn = contract->findFunction(fn);

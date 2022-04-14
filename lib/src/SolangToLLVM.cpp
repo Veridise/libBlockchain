@@ -3,6 +3,7 @@
 //
 
 #include "../include/SolangToLLVM.h"
+#include "llvm/IR/Instructions.h"
 #include "BlkElementaryType.h"
 #include "BlkMapType.h"
 #include "BlkUserType.h"
@@ -11,6 +12,8 @@
 #include <sstream>
 #include <stdexcept>
 #include "BlkTypeVisitor.h"
+
+using namespace llvm;
 
 namespace blockchain {
     class TypeTrans : public BlkTypeVisitor {
@@ -68,7 +71,7 @@ namespace blockchain {
             }
 
             for(auto var : blockchainFn.parameters()) {
-                ss << getTypeString(var->type()) << ".*";
+                ss << getTypeString(var->varType()) << ".*";
             }
 
             for(auto &modifier : blockchainFn.modifiers()) {
@@ -108,5 +111,55 @@ namespace blockchain {
         }
 
         return fn.getName().str() == "callDelegate";
+    }
+
+    bool SolangToLLVM::modifiesVariable(const BlkVariable &var, llvm::Instruction &ins) const {
+        if(auto call = dyn_cast<CallInst>(&ins)) {
+            auto fn = call->getCalledFunction();
+            if(fn->hasName() && fn->getName().str() == ("v__set_" + var.name())) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    bool SolangToLLVM::readsVariable(const BlkVariable &var, llvm::Instruction &ins) const {
+        if(auto call = dyn_cast<CallInst>(&ins)) {
+            auto fn = call->getCalledFunction();
+            if(fn->hasName() && fn->getName().str() == ("v__get_" + var.name())) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    bool SolangToLLVM::modifiesStorage(const llvm::Function &fn) {
+        if(!fn.hasName()) {
+            return false;
+        }
+
+        string fnName = fn.getName().str();
+
+        stringstream ss;
+        ss << "^v__set_";
+
+        std::regex reg(ss.str());
+        return regex_match(fnName, reg);
+    }
+
+    bool SolangToLLVM::fetchesStorage(const llvm::Function &fn) {
+        if(!fn.hasName()) {
+            return false;
+        }
+
+        string fnName = fn.getName().str();
+
+        stringstream ss;
+        ss << "^v__get_";
+
+        std::regex reg(ss.str());
+        return regex_match(fnName, reg);
     }
 }

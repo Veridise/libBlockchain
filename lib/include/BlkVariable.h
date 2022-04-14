@@ -6,6 +6,7 @@
 #define LIBBLOCKCHAIN_BLKVARIABLE_H
 
 #include <string>
+#include <llvm/IR/Instruction.h>
 #include "BlkType.h"
 
 using namespace std;
@@ -24,9 +25,11 @@ namespace blockchain {
             return false;
         }
 
-        const BlkType &type() const;
+        const BlkType &varType() const;
+        bool modifiedBy(llvm::Instruction &ins) const;
+        bool readBy(llvm::Instruction &ins) const;
     private:
-        BlkType *varType;
+        BlkType *varTy;
     };
 }
 

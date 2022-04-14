@@ -19,6 +19,9 @@ namespace blockchain {
             virtual bool isCall(const llvm::Function &llvmFn) const = 0;
             virtual bool isStaticCall(const llvm::Function &llvmFn) const = 0;
             virtual bool isDelegateCall(const llvm::Function &llvmFn) const = 0;
+
+            virtual bool modifiesVariable(const BlkVariable &var, llvm::Instruction &ins) const = 0;
+            virtual bool readsVariable(const BlkVariable &var, llvm::Instruction &ins) const = 0;
         private:
     };
 }

@@ -28,17 +28,50 @@ namespace blockchain {
         Argument *selfArg = fn->getArg(0);
         MemoryLocation selfLoc = MemoryLocation::getAfter(selfArg);
 
+        if(InkToLLVM::isMemoryStore(ins)) {
+            MemoryLocation storeLoc = InkToLLVM::getStoreLocation(ins);
 
-        if (auto store = dyn_cast<StoreInst>(&ins)) {
-            MemoryLocation storeLoc = MemoryLocation::get(store);
             llvm::AAResults *aa = alias.request(*fn);
             if(aa->alias(selfLoc, storeLoc)) {
                 return true;
             }
         }
-        else if(auto call = dyn_cast<CallInst>(&ins)) {
+
+        if(auto call = dyn_cast<CallInst>(&ins)) {
             //Can only store contract variables
             if(InkToLLVM::isLazyStore(*call->getCalledFunction())) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    bool Ink::readsStorage(Instruction &ins) const {
+        auto fn = ins.getFunction();
+        if(!isContractFunction(*fn)) {
+            return false;
+        }
+
+        if(fn->arg_size() < 1) {
+            throw runtime_error("Expected there to be at least one input to " + fn->getName().str());
+        }
+
+        Argument *selfArg = fn->getArg(0);
+        MemoryLocation selfLoc = MemoryLocation::getAfter(selfArg);
+
+        if(InkToLLVM::isMemoryRead(ins)) {
+            MemoryLocation readLoc = InkToLLVM::getReadLocation(ins);
+
+            llvm::AAResults *aa = alias.request(*fn);
+            if(aa->alias(selfLoc, readLoc)) {
+                return true;
+            }
+        }
+
+        if(auto call = dyn_cast<CallInst>(&ins)) {
+            //Can only store contract variables
+            if(InkToLLVM::isLazyGet(*call->getCalledFunction())) {
                 return true;
             }
         }

@@ -9,7 +9,9 @@
 #include <BlkContract.h>
 #include "llvm/IR/Module.h"
 #include "llvm/Support/CommandLine.h"
+#include <unordered_set>
 
+using namespace std;
 using namespace blockchain;
 
 namespace blockchainTest {
@@ -39,7 +41,7 @@ namespace blockchainTest {
     }
 
     bool BlockchainTest::runOnModule(Module &mod) {
-        for(const Function &fn : mod) {
+        for(Function &fn : mod) {
             //if(fn.hasName()) {
             //    cout << fn.getName().str() << endl;
             //}
@@ -52,6 +54,36 @@ namespace blockchainTest {
             if(blockchain->isAnyExternalCall(fn)) {
                 externalCallCnt++;
                 cout << "Found external call: " << fn.getName().str() << endl;
+            }
+
+            for(auto &bb : fn) {
+                for(auto &ins : bb) {
+                    if(blockchain->modifiesStorage(ins)) {
+                        cout << fnName << endl;
+                        ins.print(outs());
+                        cout << endl;
+                        BlkVariable *var = blockchain->modifiedStorageVariable(ins);
+                        if(var == nullptr) {
+                            cout << "Cannot find the variable that's modified";
+                        }
+                        else {
+                            cout << var->name() << " modified" << endl;
+                        }
+                    }
+                    if(blockchain->readsStorage(ins)) {
+                        cout << fnName << endl;
+                        ins.print(outs());
+                        cout << endl;
+                        BlkVariable *var = blockchain->readStorageVariable(ins);
+
+                        if(var == nullptr) {
+                            cout << "Cannot find the variable that's read" << endl;
+                        }
+                        else {
+                            cout << var->name() << " read" << endl;
+                        }
+                    }
+                }
             }
         }
 
