@@ -12,16 +12,18 @@
 #include "BlkFunction.h"
 #include "BlkUserType.h"
 #include <vector>
+#include "BlkNode.h"
+#include "BlkEvent.h"
 
 using namespace std;
 using namespace llvm;
-#include "BlkNode.h"
+
 
 namespace blockchain {
     class BlkContract : public BlkStorage {
     public:
         BlkContract(BlockchainToLLVM *blk2llvm, string &name, vector<BlkFunction *> *fns, vector<BlkVariable *> *vars, vector<BlkUserType *> *inherits,
-                    vector<BlkEnum *> *enums, vector<BlkStruct *> *structs, vector<BlkFunction *> *events);
+                    vector<BlkEnum *> *enums, vector<BlkStruct *> *structs, vector<BlkEvent *> *events);
         ~BlkContract();
 
         static inline bool classof(const BlkContract &) { return true; }
@@ -39,7 +41,7 @@ namespace blockchain {
         vector<BlkContract *> inherits() const;
     private:
         vector<BlkUserType *> *contractInherits;
-        vector<BlkFunction *> *contractEvents;
+        vector<BlkEvent *> *contractEvents;
         vector<BlkEnum *> *contractEnums;
         vector<BlkStruct *> *contractStructs;
         vector<BlkVariable *> *contractVars;

@@ -12,6 +12,7 @@
 #include <../include/SolangToLLVM.h>
 #include "InkToLLVM.h"
 #include "Ink.h"
+#include "BlkEvent.h"
 
 using namespace std;
 
@@ -94,12 +95,12 @@ namespace blockchain {
             }
         }
 
-        auto events = new vector<BlkFunction *>();
+        auto events = new vector<BlkEvent *>();
         if(val.HasMember("events")) {
             require(val["events"].IsArray(), "Contract events must be an array of Function");
 
             for(rapidjson::Value &eVal : val["events"].GetArray()) {
-                events->push_back(readFunction(eVal));
+                events->push_back(readEvent(eVal));
             }
         }
 
@@ -141,6 +142,25 @@ namespace blockchain {
         auto contract = new BlkContract(llvmTrans, name, functions, variables, inherits, enums, structs, events);
         storageDecls[id] = contract;
         return contract;
+    }
+
+    BlkEvent *SummaryReader::readEvent(rapidjson::Value &val) {
+        require(val.HasMember("name") && val["name"].IsString(), "Function must have a name");
+
+        string name = val["name"].GetString();
+
+        auto params = new vector<BlkVariable *>();
+        if(val.HasMember("params")) {
+            require(val["params"].IsArray(), "Function params must be array of Variable");
+
+            for(auto &pVal : val["params"].GetArray()) {
+                params->push_back(readVariable(pVal));
+            }
+        }
+
+        BlkEvent *event = new BlkEvent(llvmTrans, name, params);
+
+        return event;
     }
 
     BlkStruct *SummaryReader::readStruct(rapidjson::Value &val) {

@@ -7,7 +7,7 @@
 
 namespace blockchain {
     BlkContract::BlkContract(BlockchainToLLVM *blk2llvm, string &name, vector<BlkFunction *> *fns, vector<BlkVariable *> *vars, vector<BlkUserType *> *inherits,
-            vector<BlkEnum *> *enums, vector<BlkStruct *> *structs, vector<BlkFunction *> *events) : BlkStorage(CONTRACT, blk2llvm, name) {
+            vector<BlkEnum *> *enums, vector<BlkStruct *> *structs, vector<BlkEvent *> *events) : BlkStorage(CONTRACT, blk2llvm, name) {
         contractFns = fns;
         registerParent(contractFns);
         contractVars = vars;

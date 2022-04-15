@@ -19,6 +19,7 @@
 #include "BlkEnum.h"
 #include "BlkContract.h"
 #include "BlkStorage.h"
+#include "BlkEvent.h"
 
 #include "../rapidjson/document.h"
 
@@ -34,6 +35,7 @@ namespace blockchain {
         Blockchain *summary;
         AAWrapper *alias;
 
+        BlkEvent *readEvent(rapidjson::Value &val);
         Blockchain *readSummary(rapidjson::Value &val);
         BlkContract *readContract(rapidjson::Value &val);
         BlkStruct *readStruct(rapidjson::Value &val);

@@ -24,6 +24,7 @@ namespace blockchain {
         //contract entities
         FUNCTION,
         VARIABLE,
+        EVENT,
         //Types
         TYPE_BEGIN,
         ELEMENTARY_TYPE = TYPE_BEGIN,

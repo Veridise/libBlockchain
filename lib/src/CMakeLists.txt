@@ -16,6 +16,7 @@ set (Sources
         ${CMAKE_CURRENT_SOURCE_DIR}/Ink.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/InkToLLVM.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/AAWrapper.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/BlkEvent.cpp
         )
 
 target_sources(Blockchain PRIVATE
