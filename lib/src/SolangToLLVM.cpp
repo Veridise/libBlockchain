@@ -66,7 +66,8 @@ namespace blockchain {
             ss << blockchainFn.name() << ".*";
         }
         else {
-            ss << "function::" << blockchainFn.name() ;
+            //ss << "function::" << blockchainFn.name() ;
+            ss << ".*" << blockchainFn.name() ;
             if(!blockchainFn.parameters().empty() || !blockchainFn.modifiers().empty()) {
                 ss << "__";
             }
