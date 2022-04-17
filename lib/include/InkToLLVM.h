@@ -8,6 +8,7 @@
 #include "BlockchainToLLVM.h"
 #include <AAWrapper.h>
 #include "llvm/Analysis/MemoryLocation.h"
+#include "llvm/IR/Function.h"
 
 namespace blockchain {
     class InkToLLVM : public BlockchainToLLVM {
@@ -30,9 +31,12 @@ namespace blockchain {
         static bool isMemoryRead(const llvm::Instruction &ins);
         static llvm::MemoryLocation getStoreLocation(const llvm::Instruction &ins);
         static llvm::MemoryLocation getReadLocation(const llvm::Instruction &ins);
+        static llvm::Value *getSelfRef(const BlkFunction &blkFn, llvm::Function &fn);
 
     private:
         AAWrapper &alias;
+
+        static bool isConstructorClosure(const BlkFunction &blockchainFn, const llvm::Function &llvmFn);
     };
 }
 

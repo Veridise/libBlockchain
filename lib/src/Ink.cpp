@@ -17,7 +17,8 @@ namespace blockchain {
 
     bool Ink::writesStorage(Instruction &ins) const {
         auto fn = ins.getFunction();
-        if(!isContractFunction(*fn)) {
+        auto blkFn = findFunction(*fn);
+        if(blkFn == nullptr) {
             return false;
         }
 
@@ -25,14 +26,14 @@ namespace blockchain {
             throw runtime_error("Expected there to be at least one input to " + fn->getName().str());
         }
 
-        Argument *selfArg = fn->getArg(0);
+        auto selfArg = InkToLLVM::getSelfRef(*blkFn, *fn);
         MemoryLocation selfLoc = MemoryLocation::getAfter(selfArg);
 
         if(InkToLLVM::isMemoryStore(ins)) {
             MemoryLocation storeLoc = InkToLLVM::getStoreLocation(ins);
 
             llvm::AAResults *aa = alias.request(*fn);
-            if(aa->alias(selfLoc, storeLoc)) {
+            if(aa->alias(storeLoc, selfLoc) > llvm::AliasResult::MayAlias) {
                 return true;
             }
         }
@@ -49,7 +50,8 @@ namespace blockchain {
 
     bool Ink::readsStorage(Instruction &ins) const {
         auto fn = ins.getFunction();
-        if(!isContractFunction(*fn)) {
+        auto blkFn = findFunction(*fn);
+        if(blkFn == nullptr) {
             return false;
         }
 
@@ -57,14 +59,14 @@ namespace blockchain {
             throw runtime_error("Expected there to be at least one input to " + fn->getName().str());
         }
 
-        Argument *selfArg = fn->getArg(0);
+        auto selfArg = InkToLLVM::getSelfRef(*blkFn, *fn);
         MemoryLocation selfLoc = MemoryLocation::getAfter(selfArg);
 
         if(InkToLLVM::isMemoryRead(ins)) {
             MemoryLocation readLoc = InkToLLVM::getReadLocation(ins);
 
             llvm::AAResults *aa = alias.request(*fn);
-            if(aa->alias(selfLoc, readLoc)) {
+            if(aa->alias(readLoc, selfLoc) > llvm::AliasResult::MayAlias) {
                 return true;
             }
         }

@@ -21,13 +21,22 @@
 namespace blockchain {
     InkToLLVM::InkToLLVM(AAWrapper &alias) : alias(alias) {}
 
+    Value *InkToLLVM::getSelfRef(const BlkFunction &blkFn, Function &fn) {
+        if(InkToLLVM::isConstructorClosure(blkFn, fn)) {
+            return fn.getArg(fn.arg_size() - 1);
+        }
+
+        return fn.getArg(0);
+    }
+
     MemoryLocation getContractVarLocation(const BlkContract &contract, const BlkVariable &var, llvm::Instruction &ins) {
         Function &fn = *ins.getFunction();
-        if(!contract.isContractFunction(fn)) {
+        auto blkFn = contract.findFunction(fn);
+        if(blkFn == nullptr) {
             throw runtime_error("Should be contract function");
         }
 
-        Argument *arg = fn.getArg(0);
+        auto arg = InkToLLVM::getSelfRef(*blkFn, fn);
         auto it = std::find(contract.variables().begin(), contract.variables().end(), &var);
         auto id = std::distance(contract.variables().begin(), it);
 
@@ -43,8 +52,6 @@ namespace blockchain {
         IntegerType *intType = IntegerType::get(ins.getContext(), 32);
         Value* indexList[2] = {ConstantInt::get(intType, 0), ConstantInt::get(intType, id)};
         auto gep = GetElementPtrInst::Create(argType->getElementType(), arg, ArrayRef<Value*>(indexList, 2), "acc");
-        gep->print(outs());
-        std::cout << endl;
         auto &layout = fn.getParent()->getDataLayout();
         auto elementSize = layout.getTypeSizeInBits(structType->getElementType(id));
         //cout << elementSize << endl;
@@ -100,7 +107,7 @@ namespace blockchain {
 
                 MemoryLocation varLoc = getContractVarLocation(*contract, var, ins);
                 auto aa = alias.request(fn);
-                if(aa->alias(storeLoc, varLoc)) {
+                if(aa->alias(storeLoc, varLoc) > llvm::AliasResult::MayAlias) {
                     return true;
                 }
 
@@ -124,7 +131,7 @@ namespace blockchain {
 
                     MemoryLocation varLoc = getContractVarLocation(*contract, var, ins);
                     auto aa = alias.request(fn);
-                    if (aa->alias(loc, varLoc)) {
+                    if (aa->alias(loc, varLoc) > llvm::AliasResult::MayAlias) {
                         return true;
                     }
 
@@ -152,7 +159,7 @@ namespace blockchain {
 
                 MemoryLocation varLoc = getContractVarLocation(*contract, var, ins);
                 auto aa = alias.request(fn);
-                if(aa->alias(readLoc, varLoc)) {
+                if(aa->alias(readLoc, varLoc) > llvm::AliasResult::MayAlias) {
                     return true;
                 }
 
@@ -176,7 +183,7 @@ namespace blockchain {
 
                     MemoryLocation varLoc = getContractVarLocation(*contract, var, ins);
                     auto aa = alias.request(fn);
-                    if (aa->alias(loc, varLoc)) {
+                    if (aa->alias(loc, varLoc) > llvm::AliasResult::MayAlias) {
                         return true;
                     }
 
@@ -262,19 +269,21 @@ namespace blockchain {
         return regex_match(fnName, reg);
     }
 
+    bool InkToLLVM::isConstructorClosure(const BlkFunction &blockchainFn, const llvm::Function &llvmFn) {
+        stringstream ss;
+        ss << ".*\\.\\." << blockchainFn.parent()->name() << ".*" << blockchainFn.name() << ".*closure.*";
+        std::regex reg(ss.str());
+        string name = llvmFn.getName().str();
+        return regex_match(llvmFn.getName().str(), reg);
+    }
+
     bool InkToLLVM::isTranslation(const BlkFunction &blockchainFn, const llvm::Function &llvmFn) const {
         if(!llvmFn.hasName()) {
             return false;
         }
 
-        if(blockchainFn.isConstructor()) {
-            stringstream ss;
-            ss << ".*\\.\\." << blockchainFn.parent()->name() << ".*" << blockchainFn.name() << ".*closure.*";
-            std::regex reg(ss.str());
-            string name = llvmFn.getName().str();
-            if(regex_match(llvmFn.getName().str(), reg)) {
-                return true;
-            }
+        if(blockchainFn.isConstructor() && isConstructorClosure(blockchainFn, llvmFn)) {
+            return true;
         }
 
         stringstream ss;
