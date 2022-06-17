@@ -12,11 +12,15 @@ set(LIBBLOCKCHAIN_VERSION
         ${LIBBLOCKCHAIN_MAJOR_VERSION}.${LIBBLOCKCHAIN_MINOR_VERSION}.${LIBBLOCKCHAIN_PATCH_VERSION})
 
 
-if(NOT DEFINED ENV{LLVM_HOME})
+if(NOT DEFINED ENV{LLVM_DIR})
     message(FATAL_ERROR "$LLVM_HOME is not defined")
 else ()
-    set(ENV{LLVM_DIR} $ENV{LLVM_HOME}/lib/cmake/llvm)
+    set(ENV{LLVM_DIR} $ENV{LLVM_DIR}/lib/cmake/llvm)
 endif()
+
+# find_package(rapidjson REQUIRED)
+# include_directories(${rapidjson_INCLUDE_DIRS})
+# link_directories(${rapidjson_LIBRARY_DIRS})
 
 find_package(LLVM REQUIRED CONFIG)
 add_definitions(${LLVM_DEFINITIONS})
