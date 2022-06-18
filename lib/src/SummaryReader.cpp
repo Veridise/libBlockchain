@@ -5,8 +5,8 @@
 #include "../include/SummaryReader.h"
 #include "Solidity.h"
 #include <fstream>
-#include <document.h>
-#include <istreamwrapper.h>
+#include "rapidjson/document.h"
+#include "rapidjson/istreamwrapper.h"
 #include <stdexcept>
 #include <iostream>
 #include <../include/SolangToLLVM.h>
