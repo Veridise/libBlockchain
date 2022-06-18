@@ -1,5 +1,7 @@
-cmake_minimum_required(VERSION 3.4)
+cmake_minimum_required(VERSION 3.14)
 project(libBlockchain)
+
+include (GNUInstallDirs)
 
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
@@ -30,8 +32,6 @@ add_subdirectory(lib)
 export(TARGETS Blockchain BlockchainStatic
         FILE "${PROJECT_BINARY_DIR}/libBlockchainTargets.cmake")
 
-export(PACKAGE libBlockchain)
-
 set (INSTALL_CMAKE_DIR ${PROJECT_BINARY_DIR}/lib)
 set (INSTALL_INCLUDE_DIR ${PROJECT_BINARY_DIR}/lib/include)
 
@@ -50,4 +50,19 @@ configure_file(libBlockchainConfig.cmake.in
 configure_file(libBlockchainConfigVersion.cmake.in
         "${PROJECT_BINARY_DIR}/libBlockchainConfigVersion.cmake" @ONLY)
 
+## Install target
 
+# Libraries
+install(TARGETS Blockchain BlockchainStatic
+  EXPORT ${PROJECT_NAME}Targets
+  INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+install(EXPORT ${PROJECT_NAME}Targets DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}")
+
+# Headers
+install(DIRECTORY "${PROJECT_SOURCE_DIR}/lib/include/" TYPE INCLUDE)
+
+# CMake configuration
+install(FILES
+  "${PROJECT_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/libBlockchainConfig.cmake"
+  "${PROJECT_BINARY_DIR}/libBlockchainConfigVersion.cmake"
+  DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}")
