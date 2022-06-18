@@ -1,8 +1,8 @@
-add_library(Blockchain SHARED)
-add_library(BlockchainStatic STATIC)
+add_library(BlockchainObjects OBJECT)
+add_library(Blockchain SHARED $<TARGET_OBJECTS:BlockchainObjects>)
+add_library(BlockchainStatic STATIC $<TARGET_OBJECTS:BlockchainObjects>)
 add_library(BlockchainTest SHARED)
 
-#include_directories(rapidjson)
 include_directories(include)
 add_subdirectory(src)
 add_subdirectory(test)

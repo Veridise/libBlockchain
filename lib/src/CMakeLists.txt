@@ -19,9 +19,7 @@ set (Sources
         ${CMAKE_CURRENT_SOURCE_DIR}/BlkEvent.cpp
         )
 
-target_sources(Blockchain PRIVATE
-        ${Sources})
-target_sources(BlockchainStatic PRIVATE
+target_sources(BlockchainObjects PRIVATE
         ${Sources})
 
-include_directories(../include)
+#include_directories(../include)
