@@ -3,7 +3,10 @@ add_library(Blockchain SHARED $<TARGET_OBJECTS:BlockchainObjects>)
 add_library(BlockchainStatic STATIC $<TARGET_OBJECTS:BlockchainObjects>)
 add_library(BlockchainTest SHARED)
 
-include_directories(include)
+include_directories(
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+  $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDE_DIR}/include>
+)
 add_subdirectory(src)
 add_subdirectory(test)
 
