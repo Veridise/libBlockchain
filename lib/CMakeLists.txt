@@ -1,35 +1,28 @@
 add_library(BlockchainObjects OBJECT)
-add_library(Blockchain SHARED $<TARGET_OBJECTS:BlockchainObjects>)
-add_library(BlockchainStatic STATIC $<TARGET_OBJECTS:BlockchainObjects>)
+add_library(Blockchain SHARED)
+add_library(BlockchainStatic STATIC)
 add_library(BlockchainTest SHARED)
 
-include_directories(
-  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-  $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDE_DIR}/include>
-)
 add_subdirectory(src)
 add_subdirectory(test)
 
-# Use C++11 to compile your pass (i.e., supply -std=c++11).
-target_compile_features(Blockchain PRIVATE cxx_range_for cxx_auto_type)
-target_compile_features(BlockchainStatic PRIVATE cxx_range_for cxx_auto_type)
-target_compile_features(BlockchainTest PRIVATE cxx_range_for cxx_auto_type)
-
-target_link_libraries(BlockchainTest PUBLIC BlockchainStatic)
-#set_target_properties(BlockchainTest PROPERTIES LINK_FLAGS "-lBlockchainStatic")
-
-# LLVM is (typically) built with no C++ RTTI. We need to match that;
-# otherwise, we'll get linker errors about missing RTTI data.
-set_target_properties(Blockchain PROPERTIES
-    COMPILE_FLAGS "-fno-rtti"
+target_include_directories(BlockchainObjects PUBLIC
+  "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
+  "$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>"
+  ${LLVM_INCLUDE_DIRS}
 )
-set_target_properties(BlockchainStatic PROPERTIES
-    COMPILE_FLAGS "-fno-rtti"
-)
+separate_arguments(llvm_defs NATIVE_COMMAND ${LLVM_DEFINITIONS})
+target_compile_definitions(BlockchainObjects PUBLIC ${llvm_defs})
+target_link_libraries(BlockchainObjects PUBLIC LLVMTarget RapidJSON::RapidJSON)
+llvm_update_compile_flags(BlockchainObjects)
 
-set_target_properties(BlockchainTest PROPERTIES
-    COMPILE_FLAGS "-fno-rtti"
-)
+# reenable exceptions (if needed) since we might use them
+target_compile_options(BlockchainObjects PRIVATE "-fexceptions")
+
+
+target_link_libraries(Blockchain PUBLIC BlockchainObjects)
+target_link_libraries(BlockchainStatic PUBLIC BlockchainObjects)
+target_link_libraries(BlockchainTest PUBLIC Blockchain)
 
 # Get proper shared-library behavior (where symbols are not necessarily
 # resolved when the shared library is linked) on OS X.
@@ -44,3 +37,13 @@ if(APPLE)
         LINK_FLAGS "-undefined dynamic_lookup"
     )
 endif(APPLE)
+
+
+## Install target
+
+install(TARGETS Blockchain BlockchainStatic BlockchainObjects
+  EXPORT ${LIBBLOCKCHAIN_TARGET_EXPORT}
+  INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
+  PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
+)
+install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/include/" TYPE INCLUDE)

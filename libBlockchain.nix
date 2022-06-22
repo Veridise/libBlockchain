@@ -10,6 +10,12 @@ stdenv.mkDerivation {
 
   src = ./.;
 
+  postPatch = ''
+    # Remove local rapidjson in favor of nix-provided rapidjson
+    sed -i 's|../rapidjson|rapidjson|' lib/include/*.h
+    rm -rf lib/rapidjson/
+  '';
+
   nativeBuildInputs = [ cmake ninja libllvm ];
   propagatedBuildInputs = [ rapidjson ];
 
@@ -17,8 +23,11 @@ stdenv.mkDerivation {
 
   outputs = [ "out" "dev" ];
 
-  postPatch = ''
-    sed -i 's|../rapidjson|rapidjson|' lib/include/*.h
-    rm -rf lib/rapidjson/
+  # avoid CMake split derivation errors with `nix develop`
+  outputInclude = "out";
+  postFixup = ''
+    moveToOutput include "$dev"
+    substituteInPlace "$dev"/lib/cmake/libBlockchain/libBlockchainTargets.cmake \
+      --replace "$out"/include "$dev"/include
   '';
 }

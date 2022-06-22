@@ -18,55 +18,47 @@ else ()
     set(ENV{LLVM_DIR} $ENV{LLVM_DIR}/lib/cmake/llvm)
 endif()
 
-# find_package(rapidjson REQUIRED)
-# include_directories(${rapidjson_INCLUDE_DIRS})
-# link_directories(${rapidjson_LIBRARY_DIRS})
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
+find_package(RapidJSON REQUIRED MODULE)
 
 find_package(LLVM REQUIRED CONFIG)
-add_definitions(${LLVM_DEFINITIONS})
-include_directories(${LLVM_INCLUDE_DIRS})
-link_directories(${LLVM_LIBRARY_DIRS})
 if (${LLVM_VERSION_MAJOR} VERSION_GREATER_EQUAL 10) 
-    set(CMAKE_CXX_STANDARD 14) 
+    set(CMAKE_CXX_STANDARD 14)
 endif ()
+
+list(APPEND CMAKE_MODULE_PATH ${LLVM_CMAKE_DIR})
+include(AddLLVM)
+
+set(LIBBLOCKCHAIN_TARGET_EXPORT "${PROJECT_NAME}Targets")
 
 add_subdirectory(lib)
 
-# Add all targets to the build-tree export set
-export(TARGETS Blockchain BlockchainStatic
-        FILE "${PROJECT_BINARY_DIR}/libBlockchainTargets.cmake")
 
-set (INSTALL_CMAKE_DIR ${PROJECT_BINARY_DIR}/lib)
-set (INSTALL_INCLUDE_DIR ${PROJECT_BINARY_DIR}/lib/include)
+## Export configuration
 
-# Create the libBlockchain.cmake and libBlockchainConfigVersion files
-file(RELATIVE_PATH REL_INCLUDE_DIR "${INSTALL_CMAKE_DIR}"
-        "${INSTALL_INCLUDE_DIR}")
-# ... for the build tree
-set(CONF_INCLUDE_DIRS "${PROJECT_SOURCE_DIR}/lib/include" "${PROJECT_BINARY_DIR}/lib")
-configure_file(libBlockchainConfig.cmake.in
-        "${PROJECT_BINARY_DIR}/libBlockchainConfig.cmake" @ONLY)
-# ... for the install tree
-set(CONF_INCLUDE_DIRS "\${LIBBLOCKCHAIN_CMAKE_DIR}/${REL_INCLUDE_DIR}")
-configure_file(libBlockchainConfig.cmake.in
-        "${PROJECT_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/libBlockchainConfig.cmake" @ONLY)
-# ... for both
-configure_file(libBlockchainConfigVersion.cmake.in
-        "${PROJECT_BINARY_DIR}/libBlockchainConfigVersion.cmake" @ONLY)
-
-## Install target
-
-# Libraries
-install(TARGETS Blockchain BlockchainStatic
-  EXPORT ${PROJECT_NAME}Targets
-  INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
-install(EXPORT ${PROJECT_NAME}Targets DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}")
-
-# Headers
-install(DIRECTORY "${PROJECT_SOURCE_DIR}/lib/include/" TYPE INCLUDE)
-
-# CMake configuration
-install(FILES
-  "${PROJECT_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/libBlockchainConfig.cmake"
-  "${PROJECT_BINARY_DIR}/libBlockchainConfigVersion.cmake"
+install(EXPORT ${LIBBLOCKCHAIN_TARGET_EXPORT}
+  FILE "${LIBBLOCKCHAIN_TARGET_EXPORT}.cmake"
   DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}")
+
+include(CMakePackageConfigHelpers)
+configure_package_config_file(
+  "${CMAKE_CURRENT_SOURCE_DIR}/libBlockchainConfig.cmake.in"
+  "${CMAKE_CURRENT_BINARY_DIR}/libBlockchainConfig.cmake"
+  INSTALL_DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/libBlockchain"
+  NO_SET_AND_CHECK_MACRO
+  NO_CHECK_REQUIRED_COMPONENTS_MACRO
+)
+write_basic_package_version_file(
+  "${CMAKE_CURRENT_BINARY_DIR}/libBlockchainConfigVersion.cmake"
+  VERSION "${LIBBLOCKCHAIN_VERSION}"
+  COMPATIBILITY AnyNewerVersion
+)
+
+install(FILES
+  "${CMAKE_CURRENT_BINARY_DIR}/libBlockchainConfig.cmake"
+  "${CMAKE_CURRENT_BINARY_DIR}/libBlockchainConfigVersion.cmake"
+  DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}")
+
+# Export for use in build tree
+export(EXPORT ${LIBBLOCKCHAIN_TARGET_EXPORT}
+  FILE "${CMAKE_CURRENT_BINARY_DIR}/${LIBBLOCKCHAIN_TARGET_EXPORT}.cmake")
